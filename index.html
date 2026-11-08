@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breath Bar</title>
+  <meta name="description" content="Slow your breathing without stopping work. A thin bar on the edge of your screen rises and falls at a calm pace. Free for Windows and Android, with Pro for $14.99 once.">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <!-- The real thing: the same bar and scenes as the app, on this page's right edge. -->
+  <div id="bar" class="bar" aria-hidden="true"><div id="bar-fill" class="bar-fill"></div></div>
+  <canvas id="scene" class="scene" aria-hidden="true" hidden></canvas>
+
+  <main>
+    <!-- The hook: the outcome, the download, and a way to feel it first. -->
+    <section class="hero">
+      <div class="pitch">
+        <p class="name">Breath Bar</p>
+        <h1>Slow your breathing without stopping work.</h1>
+        <p class="lede">A thin bar on the edge of your screen rises and falls at a calm pace. Glance at it, breathe with it, and carry on with what you're doing.</p>
+
+        <div class="get">
+          <div class="get-row">
+            <a id="download" class="download" href="#" data-get="windows">Download for Windows</a>
+            <a class="store" href="#" data-get="android">Get it for Android</a>
+          </div>
+          <p class="small">Free. Windows 10 or 11, Android 12 or newer. No account.</p>
+        </div>
+
+        <div class="try-row">
+          <button id="try-breath" class="try-button" type="button">Try one breath</button>
+          <span class="try-note">11 seconds, right here.</span>
+        </div>
+      </div>
+
+      <figure class="demo">
+        <video id="clip" class="clip" src="clip.mp4" muted loop autoplay playsinline hidden></video>
+        <div id="mock" class="screen" aria-hidden="true">
+          <div class="window">
+            <div class="titlebar"><i></i><i></i><i></i></div>
+            <div class="doc">
+              <b></b><span style="width: 92%"></span><span style="width: 86%"></span><span style="width: 95%"></span><span style="width: 58%"></span>
+              <b></b><span style="width: 90%"></span><span style="width: 94%"></span><span style="width: 72%"></span>
+            </div>
+          </div>
+          <div class="mini"><div id="mini-fill" class="mini-fill"></div></div>
+        </div>
+        <figcaption><span id="cue" class="cue">Breathe in</span> The real bar is running on the right of this page.</figcaption>
+      </figure>
+    </section>
+
+    <!-- A question whose answer visibly changes something. -->
+    <section class="ask">
+      <div class="ask-question">
+        <h2>What brings you here?</h2>
+        <p>Pick as many as you like. The bar on this page will change to match.</p>
+        <div id="goals" class="goals" role="group" aria-label="What brings you here">
+          <button type="button" data-technique="resonance" aria-pressed="false">Stay calm while I work</button>
+          <button type="button" data-technique="box" aria-pressed="false">Focus on what I'm doing</button>
+          <button type="button" data-technique="sigh" aria-pressed="false">Settle down when I'm stressed</button>
+          <button type="button" data-technique="478" aria-pressed="false">Wind down before sleep</button>
+          <button type="button" data-technique="resonance" aria-pressed="false">Just curious</button>
+        </div>
+      </div>
+      <div class="ask-answer" aria-live="polite">
+        <p class="eyebrow">Now on the right of this page</p>
+        <h3 id="suggest-name">Resonance breathing</h3>
+        <p id="suggest-why" class="why">Slow, even and easy to keep up with.</p>
+        <div id="tiles" class="tiles" aria-hidden="true"></div>
+        <p id="timing" class="timing"></p>
+        <div id="others" class="others" hidden></div>
+      </div>
+    </section>
+
+    <!-- Benefits, not a feature list. -->
+    <section class="points">
+      <div>
+        <h2>No break to take</h2>
+        <p>You don't stop, open anything or find a quiet room. The bar stays beside your work, and your clicks go straight through it.</p>
+      </div>
+      <div>
+        <h2>Easy to look at, easy to ignore</h2>
+        <p>It sits at the edge of your vision. Glance over when you remember, and forget about it when you're busy.</p>
+      </div>
+      <div>
+        <h2>Feels like yours</h2>
+        <p>Set your own rhythm, colour and position, or swap the plain bar for a scene that moves with your breath.</p>
+        <div id="styles" class="choices" role="group" aria-label="Try a look on this page">
+          <button type="button" data-style="solid" class="on">Solid</button>
+          <button type="button" data-style="grass">Grass</button>
+          <button type="button" data-style="sunrise">Sunrise</button>
+          <button type="button" data-style="wave">Wave <span class="pro-tag">Pro</span></button>
+          <button type="button" data-style="aurora">Aurora <span class="pro-tag">Pro</span></button>
+          <button type="button" data-style="autumn-pile">Autumn <span class="pro-tag">Pro</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- What's free, what Pro adds, and the price, plainly. -->
+    <section class="pricing" id="pricing">
+      <h2>Free to use. Pro if you want more.</h2>
+      <div class="plans">
+        <div class="plan">
+          <h3>Free</h3>
+          <p class="price">$0</p>
+          <ul>
+            <li>The bar on any edge of your screen</li>
+            <li>Solid, Glow and Segments, plus the Grass and Sunrise scenes</li>
+            <li>All six breathing techniques, at the pace that suits you</li>
+            <li>Your own colour, width and transparency</li>
+            <li>Hides itself during fullscreen apps</li>
+          </ul>
+          <a class="download secondary" href="#" data-get="windows">Download for Windows</a>
+        </div>
+        <div class="plan pro">
+          <h3>Pro</h3>
+          <p class="price">$14.99 <span>once</span></p>
+          <ul>
+            <li>Every scene: Wave, Aurora, Snow, Fireflies, eight autumn scenes and more</li>
+            <li>Cursor mode: a ring around your pointer instead of a bar</li>
+            <li>Your own technique, with your own timings</li>
+            <li>Rainbow colours</li>
+            <li>Your PC and phone breathing in step</li>
+          </ul>
+          <a class="buy" href="#" data-get="pro">Buy Pro for Windows</a>
+          <p class="small">Try any Pro option in the app for 3 minutes before you buy. One payment, no subscription.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Honest expectations, and a person behind it. -->
+    <section class="honest">
+      <div>
+        <h2>What to expect</h2>
+        <ul>
+          <li><b>It's a guide, not a treatment.</b> Breath Bar shows a pace to follow. It isn't a medical product and doesn't promise results.</li>
+          <li><b>It's new.</b> Windows and Android are out now. Mac and iPhone don't exist yet.</li>
+          <li><b>You'll need to look at it.</b> It won't nag you, so it only helps when you glance over and follow it.</li>
+          <li><b>It's private.</b> There's no account. The apps only go online to check the time, which you can turn off, and to check a Pro license.</li>
+        </ul>
+      </div>
+      <aside class="note">
+        <p>I build Breath Bar on my own and use it every day on my PC and phone. I hope it helps you slow down a little too.</p>
+      </aside>
+    </section>
+
+    <section class="last">
+      <h2>Try it today. It's free.</h2>
+      <a class="download" href="#" data-get="windows">Download for Windows</a>
+    </section>
+  </main>
+
+  <!-- Shown when a link isn't live yet. -->
+  <p id="toast" class="toast" role="status" hidden></p>
+
+  <!-- One guided breath. It fills the screen, then narrows into the bar. -->
+  <div id="first-breath" class="first-breath" role="dialog" aria-modal="true" aria-label="One guided breath" hidden>
+    <div id="fb-fill" class="fb-fill"></div>
+    <button id="fb-skip" class="fb-skip" type="button">Skip</button>
+    <div class="fb-words">
+      <p id="fb-cue" class="fb-cue">Breathe in</p>
+      <div id="fb-reveal" class="fb-reveal" hidden>
+        <h2>That's the whole idea.</h2>
+        <p>Now picture it as a thin bar on the edge of your screen, there whenever you need it.</p>
+        <button id="fb-get" type="button">Get Breath Bar</button>
+        <button id="fb-again" class="fb-again" type="button">Once more</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="scene.js"></script>
+  <script src="scenes/wave.js"></script>
+  <script src="scenes/aurora.js"></script>
+  <script src="scenes/grass.js"></script>
+  <script src="scenes/sunrise.js"></script>
+  <script src="scenes/autumn.js"></script>
+  <script src="site.js"></script>
+</body>
+</html>

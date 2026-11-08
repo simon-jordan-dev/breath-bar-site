@@ -1,0 +1,197 @@
+/* The page keeps clear of its right edge, where the bar runs its whole height. */
+:root {
+  --bg: #fafafa;
+  --ink: #18181b;
+  --muted: #62626b;
+  --line: #dcdce1;
+  --tray: #f0f0f2;
+  --surface: #ffffff;
+  --accent: #2c79f5;
+  --on-accent: #ffffff;
+  --accent-ink: #1b5fd0;
+  --bar-width: 24px;
+  --danger: #c81e1e;
+  --good: #0a7a4b;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #18181b;
+    --ink: #f4f4f5;
+    --muted: #a8a8b1;
+    --line: #38383f;
+    --tray: #27272a;
+    --surface: #222225;
+    --accent-ink: #7fb0fa;
+    --danger: #ff8080;
+    --good: #5ad6a0;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.55 "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* ---------- The bar ---------- */
+.bar { position: fixed; top: 0; right: 0; bottom: 0; width: var(--bar-width); background: color-mix(in srgb, var(--accent) 16%, transparent); z-index: 5; pointer-events: none; }
+.bar-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background: var(--accent); transform-origin: bottom; transform: scaleY(0); }
+.scene { position: fixed; top: 0; right: 0; width: 72px; height: 100%; z-index: 5; pointer-events: none; }
+
+/* ---------- Layout ---------- */
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-block: 52px 56px;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: 96px; /* room for the widest scene, so switching looks moves nothing */
+  display: flex;
+  flex-direction: column;
+  gap: 76px;
+}
+.hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.pitch { min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+
+/* ---------- Words ---------- */
+.name { margin: 0; font-weight: 600; font-size: 16px; }
+h1 {
+  margin: 0;
+  font: 650 clamp(38px, 5.2vw, 60px)/1.05 "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+h2 { margin: 0 0 6px; font-size: 19px; font-weight: 600; letter-spacing: -0.005em; text-wrap: balance; }
+p { margin: 0; }
+.lede { font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 32em; }
+.small { font-size: 13.5px; color: var(--muted); }
+
+/* ---------- Try one breath ---------- */
+.try-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.try-button { min-height: 48px; padding: 0 20px; font-weight: 600; color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 14%, transparent); border: 1.5px solid var(--accent); border-radius: 10px; }
+.try-button:hover { background: color-mix(in srgb, var(--accent) 26%, transparent); }
+.try-note { font-size: 14px; color: var(--muted); }
+
+.first-breath { position: fixed; inset: 0; z-index: 20; overflow: hidden; background: var(--bg); }
+.fb-fill { position: absolute; top: 0; right: 0; bottom: 0; width: 100%; background: color-mix(in srgb, var(--accent) 34%, var(--bg)); transform-origin: bottom; transform: scaleY(0); transition: width 0.9s cubic-bezier(0.3, 0, 0.1, 1), background 0.9s ease; }
+.fb-fill.thin { width: var(--bar-width); background: var(--accent); }
+.fb-skip { position: absolute; top: 20px; right: 48px; min-height: 40px; padding: 0 12px; color: var(--muted); background: none; border: none; border-radius: 8px; }
+.fb-skip:hover { color: var(--ink); }
+.fb-words { position: absolute; inset: 0; display: grid; place-items: center start; max-width: 1120px; margin: 0 auto; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: 72px; pointer-events: none; }
+.fb-words button { pointer-events: auto; }
+.fb-cue { font: 650 clamp(44px, 8vw, 84px)/1.05 "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif; letter-spacing: -0.025em; }
+.fb-reveal { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; max-width: 34em; animation: rise 0.5s ease; }
+.fb-reveal h2 { margin: 0; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.1; letter-spacing: -0.02em; }
+.fb-reveal p { font-size: 19px; color: var(--muted); }
+#fb-get { min-height: 48px; padding: 0 22px; font-weight: 600; color: var(--on-accent); background: var(--accent); border: none; border-radius: 10px; }
+.fb-again { min-height: 40px; padding: 0 2px; color: var(--muted); background: none; border: none; text-decoration: underline; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- Get it ---------- */
+.get { display: flex; flex-direction: column; gap: 10px; }
+.get-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.download, .store, .buy { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 22px; font-weight: 600; text-decoration: none; border-radius: 10px; }
+.download, .buy { color: var(--on-accent); background: var(--accent); }
+.download:hover, .buy:hover, #fb-get:hover { filter: brightness(1.1); }
+.store { color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); }
+.store:hover { border-color: var(--accent); }
+.download.secondary { color: var(--accent-ink); background: none; border: 1.5px solid var(--accent); }
+.download.secondary:hover { filter: none; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; transform: translateX(-50%); max-width: calc(100% - 120px); padding: 10px 16px; font-size: 15px; font-weight: 600; color: var(--bg); background: var(--ink); border-radius: 10px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); animation: rise 0.25s ease; }
+
+/* ---------- The picture of it in use (a real clip replaces this when there is one) ---------- */
+.demo { margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 14px; color: var(--muted); }
+.cue { display: inline-block; min-width: 96px; padding: 2px 10px; text-align: center; font-weight: 600; color: var(--on-accent); background: var(--accent); border-radius: 6px; }
+.clip { display: block; width: 100%; border-radius: 12px; border: 1px solid var(--line); background: #000; }
+.screen { position: relative; aspect-ratio: 16 / 10; max-width: 100%; overflow: hidden; background: var(--tray); border: 1px solid var(--line); border-radius: 12px; padding: 7% 12% 7% 6%; }
+.window { height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.titlebar { display: flex; gap: 5px; padding: 9px 11px; border-bottom: 1px solid var(--line); }
+.titlebar i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.doc { display: flex; flex-direction: column; gap: 9px; padding: 16px 18px; }
+.doc span, .doc b { display: block; height: 7px; border-radius: 4px; background: var(--line); }
+.doc b { width: 38%; height: 11px; margin-top: 6px; background: var(--muted); opacity: 0.55; }
+.mini { position: absolute; top: 0; right: 0; bottom: 0; width: 4.5%; background: color-mix(in srgb, var(--accent) 18%, transparent); }
+.mini-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background: var(--accent); transform-origin: bottom; transform: scaleY(0); }
+
+/* ---------- What brings you here ---------- */
+.ask { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 56px; padding-block: 36px; border-block: 1px solid var(--line); }
+.ask-question { min-width: 0; }
+.ask h2, .honest h2, .last h2 { font-size: 26px; letter-spacing: -0.012em; }
+.ask-question > p { color: var(--muted); margin-bottom: 16px; }
+.goals { display: flex; flex-wrap: wrap; gap: 8px; }
+.goals button { min-height: 44px; padding: 6px 14px; text-align: left; background: var(--surface); border: 1.5px solid var(--line); border-radius: 22px; }
+.goals button:hover { border-color: var(--accent); }
+.goals button[aria-pressed=true] { color: var(--accent-ink); font-weight: 600; background: color-mix(in srgb, var(--accent) 14%, var(--surface)); border-color: var(--accent); }
+.ask-answer { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 13.5px; color: var(--muted); }
+h3 { margin: 0; font-size: 26px; line-height: 1.2; letter-spacing: -0.012em; }
+.why { color: var(--muted); }
+.tiles { display: flex; gap: 6px; margin-top: 6px; }
+.tile { flex: 1; min-width: 0; padding: 7px 0; text-align: center; font-size: 17px; font-variant-numeric: tabular-nums; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; transition: border-color 0.2s ease; }
+.tile small { display: block; font-size: 12px; color: var(--muted); }
+.tile.now { border-color: var(--accent); }
+.timing { font-size: 14.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.others { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 14.5px; color: var(--muted); }
+.others button { min-height: 36px; padding: 2px 12px; color: var(--accent-ink); background: none; border: 1px solid var(--accent); border-radius: 18px; }
+
+/* ---------- Benefits ---------- */
+.points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.points > div { min-width: 0; }
+.points p { color: var(--muted); font-size: 16px; }
+.choices { display: flex; flex-wrap: wrap; gap: 2px; width: fit-content; max-width: 100%; margin-top: 12px; padding: 2px; background: var(--tray); border-radius: 10px; }
+.choices button { min-height: 38px; padding: 4px 11px; font-size: 14.5px; color: var(--muted); background: none; border: none; border-radius: 8px; }
+.choices button:hover { color: var(--ink); background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.choices button.on { color: var(--on-accent); background: var(--accent); font-weight: 600; }
+
+/* ---------- Free and Pro ---------- */
+.pricing { display: flex; flex-direction: column; gap: 20px; padding-top: 36px; border-top: 1px solid var(--line); }
+.pricing h2 { font-size: 26px; letter-spacing: -0.012em; margin: 0; }
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.plan { min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.plan.pro { border: 2px solid var(--accent); }
+.plan h3 { font-size: 20px; }
+.price { font-size: 34px; font-weight: 650; letter-spacing: -0.02em; line-height: 1; }
+.price span { font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.plan ul { flex: 1; margin: 4px 0 8px; padding: 0 0 0 1.1em; display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-size: 16px; }
+.plan .download, .plan .buy { align-self: flex-start; }
+.pro-tag { margin-left: 3px; padding: 0 5px; font-size: 11px; font-weight: 600; color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 16%, transparent); border-radius: 4px; vertical-align: 1px; }
+.choices button.on .pro-tag { color: var(--on-accent); background: rgba(255, 255, 255, 0.22); }
+
+/* ---------- What to expect ---------- */
+.honest { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.honest > div { min-width: 0; }
+.honest ul { margin: 12px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; color: var(--muted); font-size: 16px; }
+.honest b { color: var(--ink); font-weight: 600; }
+.note { padding-left: 18px; border-left: 3px solid var(--accent); font-size: 18px; line-height: 1.45; }
+
+.last { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; padding-top: 36px; border-top: 1px solid var(--line); }
+.last h2 { margin: 0; }
+
+/* ---------- Narrow screens ---------- */
+@media (max-width: 860px) {
+  main { padding-block: 30px 44px; gap: 48px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: 72px; }
+  .hero, .ask, .honest { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .points, .plans { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .lede { font-size: 18px; }
+}
+@media (max-width: 480px) {
+  :root { --bar-width: 14px; }
+  main { padding-right: 60px; }
+  .scene { width: 52px; }
+  .get-row > a { flex: 1 1 100%; }
+  .fb-skip { right: 28px; }
+  .fb-words { padding-left: 20px; padding-right: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fb-fill { transition: none; }
+  .fb-reveal { animation: none; }
+}
