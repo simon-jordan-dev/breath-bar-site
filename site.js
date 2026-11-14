@@ -240,7 +240,7 @@ if (/Android/i.test(navigator.userAgent)) {
   row.prepend(store);
 }
 
-const NOT_YET = { windows: 'The Windows download opens at launch.', android: 'The Android app opens at launch.', pro: 'Pro goes on sale at launch.' };
+const NOT_YET = { windows: 'The Windows download opens at launch.', android: 'Android is coming soon.', pro: 'Pro goes on sale at launch.' };
 for (const link of document.querySelectorAll('[data-get]')) {
   const url = LINKS[link.dataset.get];
   if (url) link.href = url;
