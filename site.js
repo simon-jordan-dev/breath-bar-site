@@ -2,7 +2,7 @@
 // Fill these in before launch (see README.md). Until then those buttons say they
 // open at launch, rather than going nowhere.
 const LINKS = {
-  windows: '', // the Windows installer
+  windows: 'https://github.com/simon-jordan-dev/breath-bar-site/releases/latest/download/Breath-Bar-Setup.exe', // always the newest installer (see the app's README)
   android: '', // the Google Play listing
   pro: '',     // the Lemon Squeezy checkout link for Pro
 };
@@ -240,7 +240,7 @@ if (/Android/i.test(navigator.userAgent)) {
   row.prepend(store);
 }
 
-const NOT_YET = { windows: 'The Windows download opens at launch.', android: 'Android is coming soon.', pro: 'Pro goes on sale at launch.' };
+const NOT_YET = { windows: 'The Windows download opens at launch.', android: 'Android is coming soon.', pro: 'Pro goes on sale very soon. The free app has everything you need to start.' };
 for (const link of document.querySelectorAll('[data-get]')) {
   const url = LINKS[link.dataset.get];
   if (url) link.href = url;

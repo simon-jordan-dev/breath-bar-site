@@ -209,3 +209,7 @@ h3 { margin: 0; font-size: 26px; line-height: 1.2; letter-spacing: -0.012em; }
 .back a, .legal-nav a { color: var(--muted); }
 /* Blanks still to fill in before launch. */
 .todo { background: #fde047; color: #000; padding: 0 3px; border-radius: 3px; }
+/* What to do about Windows' first-run warning. */
+.first-run { max-width: 46em; }
+.first-run h2 { font-size: 22px; margin: 0 0 8px; }
+.first-run p { color: var(--muted); line-height: 1.6; }
