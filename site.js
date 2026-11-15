@@ -232,15 +232,15 @@ function toast(text) {
   toastTimer = setTimeout(() => { $('toast').hidden = true; }, 3500);
 }
 
-// On an Android phone, the Android button comes first and stands out.
-if (/Android/i.test(navigator.userAgent)) {
+// On a phone, where the Windows download is no use, the coming-soon button comes first.
+if (/Android|iPhone/i.test(navigator.userAgent)) {
   const row = document.querySelector('.get-row'), store = row.querySelector('.store');
   store.className = 'download';
   row.querySelector('#download').className = 'store';
   row.prepend(store);
 }
 
-const NOT_YET = { windows: 'The Windows download opens at launch.', android: 'Android is coming soon.', pro: 'Pro goes on sale very soon. The free app has everything you need to start.' };
+const NOT_YET = { windows: 'The Windows download opens at launch.', android: 'Mac, iPhone and Android versions are coming soon.', pro: 'Pro goes on sale very soon. The free app has everything you need to start.' };
 for (const link of document.querySelectorAll('[data-get]')) {
   const url = LINKS[link.dataset.get];
   if (url) link.href = url;
