@@ -12,7 +12,7 @@
   <main class="legal">
     <p class="back"><a href="./">← Breath Bar</a></p>
     <h1>Terms, Privacy and Refunds</h1>
-    <p class="small">Last updated 15 November 2026. Breath Bar is an independent app made by one person, and Pro is sold through Lemon Squeezy. Questions about any of this: <a href="mailto:support@breathbar.app">support@breathbar.app</a>.</p>
+    <p class="small">Last updated 16 November 2026. Breath Bar is an independent app made by one person. On breathbar.app, Pro is sold through Stripe. Questions about any of this: <a href="mailto:support@breathbar.app">support@breathbar.app</a>.</p>
 
     <nav class="legal-nav">
       <a href="#privacy">Privacy</a>
@@ -27,14 +27,16 @@
       <p>Your settings, techniques and Pro license key are saved only on your device. We never see them.</p>
       <h3>When the app goes online</h3>
       <ul>
-        <li><b>The time.</b> To keep your devices in step, the app asks public time servers (time.cloudflare.com and pool.ntp.org) for the current time. Nothing about you is sent. You can turn this off with "Match my phone".</li>
-        <li><b>Updates.</b> The Windows app checks GitHub for a newer version every few hours and downloads it from there.</li>
-        <li><b>Pro.</b> When you enter a Pro license key, and now and then after that, the app checks the key with Lemon Squeezy. It sends the key and the name "Breath Bar on Windows", nothing else.</li>
-        <li><b>Anonymous usage data.</b> So we can see how Breath Bar is used and what to improve, the app sends usage data to PostHog, an analytics service, on its servers in the EU. Each install gets a random ID that isn't linked to you. The data covers: when the app starts and how many times a day; how long each day it runs, the bar is on screen and the settings are open, and which techniques and scenes were on screen for how long; the settings you choose, including colors, width, transparency, pace, your own Custom timings, sounds and shortcuts; the setup steps you go through; and Pro previews, purchases started and activations. It also includes the app version, Windows version, language and number of screens. It never includes your name, email, license key, what's on your screen or anything you type. Because the ID isn't linked to you, we can't tell which data is yours.</li>
+        <li><b>The time.</b> To keep your devices in step, the app asks public time servers (time.cloudflare.com and pool.ntp.org) for the current time. Nothing about you is sent. On Windows you can turn this off with "Match my phone". On Android it only happens while "Match my PC" is on.</li>
+        <li><b>Updates.</b> The Windows app checks GitHub for a newer version every few hours and downloads it from there. The Android app is updated through Google Play.</li>
+        <li><b>Pro.</b> When you enter a Pro license key, and now and then after that, the app checks the key with our license server at api.breathbar.app, which runs on Cloudflare. It sends the key and the name "Breath Bar on Windows" or "Breath Bar on Android", nothing else.</li>
+        <li><b>Anonymous usage data.</b> So we can see how Breath Bar is used and what to improve, the app sends usage data to PostHog, an analytics service, on its servers in the EU. Each install gets a random ID that isn't linked to you. The data covers: when the app starts and how many times a day; how long each day it runs, the bar is on screen and the settings are open, and which techniques and scenes were on screen for how long; the settings you choose, including colors, width, transparency, pace, your own Custom timings, sounds and shortcuts; the setup steps you go through; and Pro previews, purchases started and activations. It also includes the app version and language, plus the Windows version and number of screens on Windows, or the Android version on Android. It never includes your name, email, license key, what's on your screen or anything you type. Because the ID isn't linked to you, we can't tell which data is yours.</li>
       </ul>
-      <p>Like any website or download server, GitHub (which hosts this site and the downloads), the time servers, PostHog and Lemon Squeezy see your IP address when the app or your browser connects to them. Their own privacy policies cover that.</p>
+      <p>Like any website or download server, GitHub (which hosts this site and the downloads), Cloudflare (which runs our license server), the time servers, PostHog and Stripe see your IP address when the app or your browser connects to them. Their own privacy policies cover that.</p>
       <h3>Buying Pro</h3>
-      <p>Lemon Squeezy sells Pro on our behalf as the merchant of record. They handle your payment, receipt and taxes, and they share your name, email address and country with us so we can help with your order. We never see your card details. We use your email only for your purchase and support, never for marketing unless you ask for it.</p>
+      <p>On breathbar.app, Stripe sells Pro as the merchant of record, through its Link service. Stripe handles your payment, receipt and taxes, and shares your name, email address and country with us so we can help with your order. We never see your card details.</p>
+      <p>When you buy, our license server makes your license key and keeps it with your email address, your plan, Stripe's reference for your purchase, and the devices the key is switched on for (as "Breath Bar on Windows" or "Breath Bar on Android"). It emails you the key through Resend, an email service, and can send it again if you ask on the site. We use your email only for your purchase and support, never for marketing unless you ask for it.</p>
+      <p>In the Android app, you buy Pro through Google Play. Google handles your payment and subscription under its own terms and privacy policy, and we never see your card details. The app asks Google Play whether you have Pro, so it can unlock it.</p>
       <h3>Your rights</h3>
       <p>You can ask what we hold about you, or ask us to delete it, by emailing <a href="mailto:support@breathbar.app">support@breathbar.app</a>. We keep purchase records only as long as the law requires.</p>
     </section>
@@ -42,14 +44,15 @@
     <section id="refunds">
       <h2>Refunds</h2>
       <p>If Pro isn't right for you, email <a href="mailto:support@breathbar.app">support@breathbar.app</a> within 14 days of your first payment, or of buying lifetime Pro, and you'll get a full refund. You don't need to give a reason. Your license key stops working once the refund goes through.</p>
-      <p>You can cancel a subscription at any time from the link in your receipt email. Pro then keeps working until the end of the month or year you've paid for, and you won't be charged again. Later renewals aren't refunded, unless the law where you live says otherwise.</p>
+      <p>The same goes for Pro bought on Google Play: email us, or ask Google Play for a refund. Pro stops working once the refund goes through.</p>
+      <p>You can cancel a subscription at any time at <a href="https://link.com">link.com</a> (Stripe's Link, using the email you bought with), or if you bought it on Google Play, from Subscriptions in the Play Store. Pro then keeps working until the end of the month or year you've paid for, and you won't be charged again. Later renewals aren't refunded, unless the law where you live says otherwise.</p>
       <p>You can try every Pro option in the app for 3 minutes before you buy, so you know what you're getting.</p>
     </section>
 
     <section id="terms">
       <h2>Terms</h2>
       <h3>Using Breath Bar</h3>
-      <p>Breath Bar is free to download and use. Pro unlocks extra scenes, styles, sounds and features. It's a subscription, monthly or yearly, that renews automatically until you cancel, or a one-time lifetime purchase. Payments are handled by Lemon Squeezy.</p>
+      <p>Breath Bar is free to download and use. Pro unlocks extra scenes, styles, sounds and features. It's a subscription, monthly or yearly, that renews automatically until you cancel, or a one-time lifetime purchase. Payments are handled by Stripe on breathbar.app, and by Google Play in the Android app.</p>
       <h3>Your Pro license</h3>
       <p>A Pro license is for one person, on their own devices, up to 5 at once. You can move it to a new device by removing it from an old one in the app. Please don't share or resell license keys.</p>
       <h3>Not medical advice</h3>
