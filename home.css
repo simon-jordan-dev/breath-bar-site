@@ -1,0 +1,188 @@
+/* The home page. Night colours, a live scene on the right edge, and a mock
+   desktop with the bar in use. (legal.html and thanks.html use site.css.) */
+:root {
+  --bg: #fafafa;
+  --ink: #18181b;
+  --muted: #62626b;
+  --line: #dcdce1;
+  --surface: #ffffff;
+  --accent: #2c79f5;
+  --on-accent: #ffffff;
+  --accent-ink: #1b5fd0;
+  --radius: 10px;
+  --bar-width: 24px;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --display: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 var(--font); }
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin: 0; }
+h1, h2 { text-wrap: balance; }
+a { color: var(--accent-ink); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 22px; font-weight: 600; text-decoration: none; color: var(--on-accent); background: var(--accent); border: 1.5px solid var(--accent); border-radius: var(--radius); transition: filter 0.15s ease, background 0.15s ease; }
+.btn:hover { filter: brightness(1.1); }
+.btn.ghost { color: var(--accent-ink); background: none; }
+.btn.ghost:hover { filter: none; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.btn.quiet { color: var(--ink); background: var(--surface); border-color: var(--line); }
+.btn.quiet:hover { filter: none; border-color: var(--accent); }
+.small, .bb-small { font-size: 13.5px; color: var(--muted); }
+
+/* ---------- The bar on the page's edge ---------- */
+.edge { position: fixed; top: 0; right: 0; bottom: 0; width: var(--bar-width); background: color-mix(in srgb, var(--accent) 16%, transparent); z-index: 5; pointer-events: none; }
+.edge > i, .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background: var(--accent); transform-origin: bottom; transform: scaleY(0); }
+.edge.left { right: auto; left: 0; }
+#scene.edge-scene { position: fixed; top: 0; right: 0; width: 72px; height: 100%; z-index: 5; pointer-events: none; }
+
+/* ---------- Plans ---------- */
+.bb-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.bb-plan { min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: calc(var(--radius) + 4px); }
+.bb-plan.pro { border: 2px solid var(--accent); }
+.bb-plan h3 { font-size: 20px; }
+.bb-price { font-size: 34px; font-weight: 650; letter-spacing: -0.02em; line-height: 1; }
+.bb-price span { font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.bb-plan ul { flex: 1; margin: 4px 0 8px; padding: 0 0 0 1.1em; display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-size: 16px; }
+.bb-plan .btn { align-self: flex-start; }
+
+/* ---------- What to expect, installing ---------- */
+.bb-expect { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; color: var(--muted); font-size: 16px; }
+.bb-expect b { color: var(--ink); font-weight: 600; }
+.bb-install { max-width: 46em; }
+.bb-install h3 { font-size: 19px; margin-bottom: 6px; }
+.bb-install p { color: var(--muted); font-size: 16px; line-height: 1.6; }
+.bb-install b { color: var(--ink); }
+
+/* ---------- Footer, toast ---------- */
+.bb-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 24px 0 40px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+.bb-foot a { color: inherit; }
+.bb-toast { position: fixed; left: 50%; bottom: 24px; z-index: 40; transform: translateX(-50%); max-width: calc(100% - 48px); margin: 0; padding: 10px 16px; font-size: 15px; font-weight: 600; color: var(--bg); background: var(--ink); border-radius: 10px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); }
+
+@media (max-width: 760px) {
+  .bb-plans { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  :root { --bar-width: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Pro's buy buttons ---------- */
+.buys { display: flex; flex-wrap: wrap; gap: 8px; }
+.buys .btn { min-height: 46px; padding: 0 18px; }
+.get-row { display: flex; flex-wrap: wrap; gap: 10px; }
+/* The two plans line up row by row: name, price, small print, list, note, buttons. */
+.bb-plans { grid-template-rows: repeat(6, auto); }
+.bb-plan { display: grid; grid-row: span 6; grid-template-rows: subgrid; align-content: start; }
+.bb-plan .buys { align-self: start; }
+
+/* ---------- The page ---------- */
+  :root { --bg: #0b0e17; --ink: #eef1f8; --muted: #9aa3b8; --line: #232a3d; --surface: #121726; --accent: #5b8cff; --accent-ink: #9dbaff; --on-accent: #06102a; --radius: 12px; color-scheme: dark; }
+  body { background: radial-gradient(1200px 760px at 80% 0%, #17223f 0%, transparent 62%), var(--bg); overflow-x: clip; }
+  #scene { position: fixed; top: 0; right: 0; width: 60px; height: 100%; z-index: 5; pointer-events: none; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); padding-right: calc(60px + clamp(16px, 3vw, 40px)); }
+  /* Plain bars as the app draws them: the fill uncovers a colour band that
+     stays put (so Rainbow shows more colours as it fills, never squashed),
+     over a faint copy of the same band, and the whole bar is see-through. */
+  .edge.thin { width: 24px; opacity: 0.6; }
+  #scene { opacity: 0.7; }
+  .edge.thin > i, .bar .fill { transform: none !important; clip-path: inset(calc((1 - var(--level, 0)) * 100%) 0 0 0); }
+  .edge.rainbow, .desk[data-bar="rainbow"] .bar { background: none; }
+  .edge.rainbow::before, .desk[data-bar="rainbow"] .bar::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, #ff3b30, #ff9500, #ffcc00, #34c759, #00c7be, #007aff, #af52de); opacity: 0.22; }
+  .edge.rainbow > i, .desk[data-bar="rainbow"] .bar .fill { background: linear-gradient(to top, #ff3b30, #ff9500, #ffcc00, #34c759, #00c7be, #007aff, #af52de); }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; }
+  header b { font-weight: 600; letter-spacing: 0.02em; }
+  header a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  header a:hover { color: var(--ink); }
+
+  /* Hero: one line and one button (01), with a breathing halo (04). */
+  .hero { position: relative; padding: clamp(8px, 3vh, 32px) 0 40px; display: flex; flex-direction: column; gap: 22px; }
+  .halo { position: absolute; left: -14%; top: 40%; width: 560px; height: 560px; margin-top: -280px; border-radius: 50%; background: radial-gradient(circle, rgba(91, 140, 255, 0.3), transparent 65%); opacity: calc(0.25 + var(--level, 0) * 0.75); transform: scale(calc(0.7 + var(--level, 0) * 0.45)); pointer-events: none; }
+  .hero > :not(.halo) { position: relative; }
+  .cue { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-ink); }
+  h1 { font: 650 clamp(40px, 7vw, 88px)/1.02 var(--display); letter-spacing: -0.03em; max-width: 12em; text-wrap: balance; }
+  h1 span { font-weight: 300; color: var(--muted); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .row p { color: var(--muted); font-size: 15px; max-width: 24em; }
+  .btn { border-radius: 26px; padding: 0 26px; box-shadow: 0 0 34px rgba(91, 140, 255, 0.4); }
+
+  /* The desk (03), at night. */
+  .desk { position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #2c3550; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); background: radial-gradient(70% 90% at 15% 10%, rgba(120, 150, 255, 0.35), transparent 60%), radial-gradient(60% 80% at 90% 100%, rgba(60, 200, 190, 0.25), transparent 60%), linear-gradient(160deg, #1b2440, #24345a 45%, #2c4a62); }
+  .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 6.5%; background: rgba(14, 18, 30, 0.78); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; gap: 1.2%; }
+  .taskbar i { width: 2.4%; aspect-ratio: 1; border-radius: 22%; background: #7d8597; opacity: 0.45; }
+  .taskbar i:first-child { background: var(--accent); opacity: 1; }
+  .win { position: absolute; background: #f7f8fb; border-radius: 8px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4); overflow: hidden; display: flex; flex-direction: column; }
+  .win header { padding: 0 0 0 10px; height: 8%; min-height: 18px; background: #eceef3; border-bottom: 1px solid #dfe2e9; display: flex; align-items: center; justify-content: flex-start; gap: 5px; font-size: 11px; color: #6a7080; }
+  .win header i { width: 8px; height: 8px; border-radius: 50%; background: #cfd3dc; }
+  .body { flex: 1; padding: 5% 6%; display: flex; flex-direction: column; gap: 5%; }
+  .body span { display: block; height: 4%; min-height: 5px; border-radius: 3px; background: #dfe2e9; }
+  .body b { display: block; height: 6%; min-height: 7px; width: 40%; border-radius: 3px; background: #8b92a3; }
+  .app { position: absolute; width: auto; max-width: none; border-radius: 6px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45); }
+  .scene-set { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  .scene-set.on { opacity: 1; }
+  .code .body { background: #1e2230; gap: 4.5%; }
+  .code .body span { background: #3a4158; }
+  .code .body span:nth-child(3n) { background: #5b7fc7; }
+  .code .body span:nth-child(4n) { background: #8a6fc0; }
+  .faces { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 3%; padding: 4%; background: #1b1d24; }
+  .faces div { border-radius: 6px; background: #2c303c; display: grid; place-items: center; }
+  .faces div::after { content: ''; width: 26%; aspect-ratio: 1; border-radius: 50%; background: #596078; }
+  /* The mock's bar: a plain blue bar until a scene is picked below, then a
+     copy of the page-edge scene, scaled to the desk. */
+  .bar { position: absolute; top: 0; right: 0; bottom: 6.5%; width: 2%; min-width: 8px; background: rgba(91, 140, 255, 0.18); opacity: 0.6; }
+  .bar canvas { display: none; height: 100%; width: 24px; }
+  .desk[data-bar="scene"] .bar { width: auto; min-width: 0; background: none; opacity: 0.7; }
+  .desk[data-bar="scene"] .bar canvas { display: block; }
+  .desk[data-bar="scene"] .bar .fill { display: none; }
+  .note { position: absolute; right: calc(2% + 14px); top: 8%; padding: 6px 10px; font-size: 12.5px; font-weight: 600; color: var(--on-accent); background: var(--accent); border-radius: 8px; }
+  .desk[data-bar="scene"] .note { right: calc(var(--scene-bar, 24px) + 14px); }
+  .note::after { content: ''; position: absolute; right: -5px; top: 50%; width: 10px; height: 10px; background: inherit; transform: translateY(-50%) rotate(45deg); }
+  .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 18px auto 0; padding: 3px; width: fit-content; max-width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .tabs button { min-height: 40px; padding: 4px 16px; border: none; background: none; border-radius: 9px; color: var(--muted); }
+  .tabs button.on { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+  .caption { text-align: center; color: var(--muted); margin: 12px auto 0; max-width: 34em; min-height: 3.1em; }
+
+  main { display: flex; flex-direction: column; gap: 80px; padding: 80px 0 0; }
+  h2 { font: 300 clamp(28px, 3.6vw, 36px)/1.15 var(--display); letter-spacing: -0.015em; margin-bottom: 18px; text-wrap: balance; }
+  h2 b { font-weight: 650; }
+
+  /* The question (06), in night colours. */
+  .answers { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .answers button { min-height: 50px; padding: 6px 20px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 26px; transition: border-color 0.15s ease; }
+  .answers button:hover { border-color: var(--accent); }
+  .answers button.on { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+  .reply { min-height: 5.2em; max-width: 34em; font-size: 20px; line-height: 1.45; color: var(--muted); }
+  .reply b { color: var(--ink); }
+  .maker { display: flex; align-items: center; gap: 16px; max-width: 40em; font-size: 18px; color: var(--muted); }
+  .maker img { width: 44px; height: 44px; border-radius: 11px; flex: none; }
+
+  /* Lines and the scene picker (04). */
+  .pick { margin-top: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .pick h3 { font: 600 20px/1.25 var(--display); margin-bottom: 6px; }
+  .pick p { color: var(--muted); max-width: 34em; }
+  .warn { max-width: 46em; color: var(--muted); }
+  .warn summary { cursor: pointer; color: var(--accent-ink); font-weight: 600; }
+  .warn p { margin-top: 10px; line-height: 1.6; }
+  .warn b { color: var(--ink); }
+  .looks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .looks small { margin-left: 6px; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.75; }
+  .looks button { min-height: 40px; padding: 4px 16px; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 20px; }
+  .looks button:hover { color: var(--ink); border-color: var(--accent); }
+  .looks button.on { color: var(--on-accent); background: var(--accent); border-color: var(--accent); font-weight: 600; }
+  .bb-plan { background: rgba(18, 23, 38, 0.8); }
+  /* Bullets: a small tick in each plan's list, a soft dot in What to expect. */
+  .bb-plan ul, .bb-expect { list-style: none; padding-left: 0; }
+  .bb-plan li, .bb-expect li { position: relative; padding-left: 28px; }
+  .bb-plan li::before { content: ""; position: absolute; left: 4px; top: 0.3em; width: 6px; height: 11px; border: solid var(--muted); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  .bb-plan.pro li::before { border-color: var(--accent); }
+  .bb-plan li { color: var(--ink); }
+  .bb-expect { gap: 16px; }
+  .bb-expect li::before { content: ""; position: absolute; left: 4px; top: 0.55em; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgba(91, 140, 255, 0.6); }
+  @media (max-width: 820px) { .note { display: none; } }
+  @media (max-width: 600px) { #scene { width: 40px; } .edge.thin { width: 14px; } .wrap { padding-right: 56px; } }
