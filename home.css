@@ -232,7 +232,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .looks button.on small { color: var(--on-accent); background: rgba(6, 16, 42, 0.18); }
   .looks .sep { width: 1px; height: 24px; margin: 0 4px; background: var(--line); }
   /* Cursor mode demo: a ring that follows the pointer. Only where there is one. */
-  #cursor-ring { position: fixed; left: 0; top: 0; width: 140px; height: 140px; z-index: 30; pointer-events: none; }
+  #cursor-ring { position: fixed; left: 0; top: 0; width: 140px; height: 140px; will-change: transform; z-index: 30; pointer-events: none; }
   .desk[data-bar="cursor"] .bar { display: none; }
   @media (hover: none), (pointer: coarse) { .cursor-only { display: none !important; } }
   .bb-plan { background: rgba(18, 23, 38, 0.8); }

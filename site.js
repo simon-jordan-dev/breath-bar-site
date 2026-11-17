@@ -265,11 +265,15 @@ function placeRing() {
   if (!pointer) return;
   ring.style.transform = `translate(${pointer.x - 70}px, ${pointer.y - 70}px)`;
 }
-addEventListener('pointermove', (e) => {
+// Follow the pointer as closely as the browser allows: the faster raw updates where
+// there are any, and the browser's prediction of where the pointer is heading.
+function follow(e) {
   if (e.pointerType !== 'mouse') return;
-  pointer = { x: e.clientX, y: e.clientY };
+  const ahead = e.getPredictedEvents?.().at(-1) ?? e;
+  pointer = { x: ahead.clientX, y: ahead.clientY };
   if (ringOn) { ring.hidden = false; placeRing(); }
-}, { passive: true });
+}
+addEventListener('onpointerrawupdate' in window ? 'pointerrawupdate' : 'pointermove', follow, { passive: true });
 document.documentElement.addEventListener('pointerleave', () => { if (ringOn) ring.hidden = true; });
 for (const b of document.querySelectorAll('[data-cursor]')) {
   b.addEventListener('click', (e) => {
