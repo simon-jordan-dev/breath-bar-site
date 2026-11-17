@@ -75,7 +75,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 /* ---------- Pro's buy buttons ---------- */
-.buys { display: flex; flex-wrap: wrap; gap: 8px; }
+.buys { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; } /* the same space above the button as below it */
 .buys .btn { min-height: 46px; padding: 0 18px; }
 .get-row { display: flex; flex-wrap: wrap; gap: 10px; }
 /* The two plans line up row by row: name, price, small print, list, note, buttons. */
@@ -209,6 +209,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .pick { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; text-align: center; }
   .pick .looks { justify-content: center; margin: 0; }
   .call .faces { grid-template-columns: 1fr 1fr; }
+  .win header { white-space: nowrap; overflow: hidden; }
   .about { display: grid; gap: 28px; }
   .last { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
   /* Pro's other plans, under the monthly price. */
@@ -234,8 +235,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   /* Cursor mode demo: a ring that follows the pointer. Only where there is one. */
   #cursor-ring { position: fixed; left: 0; top: 0; width: 140px; height: 140px; will-change: transform; z-index: 30; pointer-events: none; }
   .desk[data-bar="cursor"] .bar { display: none; }
-  html.ring-on, html.ring-on * { cursor: none !important; }
-  #cursor-dot { position: fixed; left: 0; top: 0; width: 8px; height: 8px; z-index: 31; pointer-events: none; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px rgba(6, 16, 42, 0.8); will-change: transform; }
   @media (hover: none), (pointer: coarse) { .cursor-only { display: none !important; } }
   .bb-plan { background: rgba(18, 23, 38, 0.8); }
   /* Bullets: a small tick in each plan's list, a soft dot in What to expect. */
