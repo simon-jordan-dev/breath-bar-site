@@ -94,6 +94,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
   body { position: relative; }
   .rail { position: absolute; top: 0; right: 0; bottom: 0; z-index: 5; pointer-events: none; }
   .rail > #scene, .rail > .edge { position: sticky; top: 0; display: block; }
+  /* iPhone and iPad Safari only: their screen-height units still stop short of the
+     floating address bar, so the bar runs a little past the bottom of the screen
+     (the extra is simply off-screen). */
+  @supports (-webkit-touch-callout: none) {
+    .rail > #scene, .rail > .edge { height: calc(100lvh + 90px); }
+  }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); padding-right: calc(40px + clamp(12px, 2vw, 28px)); }
   /* Plain bars as the app draws them: the fill uncovers a colour band that
      stays put (so Rainbow shows more colours as it fills, never squashed),
