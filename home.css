@@ -126,7 +126,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .cue { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-ink); white-space: nowrap; }
   .cue .now { display: inline-block; min-width: 8.6em; }
   /* A short label beside the bar, until the visitor scrolls on. */
-  .bar-label { --grow: calc(0.9 + var(--level, 0) * 0.25); --rise: calc((0.5 - var(--level, 0)) * 36px); position: fixed; top: 34%; right: 70px; z-index: 6; margin: 0; padding: 7px 14px; font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--ink); background: rgba(18, 23, 38, 0.88); border: 1px solid color-mix(in srgb, var(--accent) calc(25% + var(--level, 0) * 45%), var(--line)); border-radius: 999px; pointer-events: none; transform: translateY(var(--rise)) scale(var(--grow)); transform-origin: right center; transition: opacity 0.4s ease; }
+  .bar-label { --grow: calc(0.9 + var(--level, 0) * 0.25); --rise: calc((0.5 - var(--level, 0)) * 36px); position: fixed; top: 15%; right: 70px; z-index: 6; margin: 0; padding: 7px 14px; font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--ink); background: rgba(18, 23, 38, 0.88); border: 1px solid color-mix(in srgb, var(--accent) calc(25% + var(--level, 0) * 45%), var(--line)); border-radius: 999px; pointer-events: none; transform: translateY(var(--rise)) scale(var(--grow)); transform-origin: right center; transition: opacity 0.4s ease; }
   .bar-label span { color: var(--accent-ink); }
   .bar-label.gone { opacity: 0; }
   @media (max-width: 600px) {
