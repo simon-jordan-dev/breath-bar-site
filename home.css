@@ -86,6 +86,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* ---------- The page ---------- */
   :root { --bg: #0b0e17; --ink: #eef1f8; --muted: #9aa3b8; --line: #232a3d; --surface: #121726; --accent: #5b8cff; --accent-ink: #9dbaff; --on-accent: #06102a; --radius: 12px; color-scheme: dark; }
   html, body { overflow-x: clip; }
+  html { background: var(--bg); }
   body { background: radial-gradient(1200px 760px at 80% 0%, #17223f 0%, transparent 62%), var(--bg); }
   #scene { position: fixed; top: 0; right: 0; width: 60px; height: 100vh; height: 100lvh; height: calc(100lvh + env(safe-area-inset-bottom, 0px)); z-index: 5; pointer-events: none; }
   /* iPhone Safari cuts fixed elements off at its floating address bar, but draws the
@@ -122,10 +123,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .cue { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-ink); white-space: nowrap; }
   .cue .now { display: inline-block; min-width: 8.6em; }
   /* A short label beside the bar, until the visitor scrolls on. */
-  .bar-label { position: fixed; top: 34%; right: 70px; z-index: 6; margin: 0; padding: 6px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--ink); background: rgba(18, 23, 38, 0.88); border: 1px solid var(--line); border-radius: 999px; pointer-events: none; transition: opacity 0.4s ease; }
+  .bar-label { --grow: calc(0.94 + var(--level, 0) * 0.14); position: fixed; top: 34%; right: 70px; z-index: 6; margin: 0; padding: 7px 14px; font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--ink); background: rgba(18, 23, 38, 0.88); border: 1px solid color-mix(in srgb, var(--accent) calc(25% + var(--level, 0) * 45%), var(--line)); border-radius: 999px; pointer-events: none; transform: scale(var(--grow)); transform-origin: right center; transition: opacity 0.4s ease; }
   .bar-label span { color: var(--accent-ink); }
   .bar-label.gone { opacity: 0; }
-  @media (max-width: 600px) { .bar-label { right: 10px; top: 24%; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; padding: 10px 4px; } .bar-label span { display: none; } .cue { font-size: 12px; letter-spacing: 0.16em; } }
+  @media (max-width: 600px) {
+    .bar-label { right: 8px; top: 22%; writing-mode: vertical-rl; transform: rotate(180deg) scale(var(--grow)); transform-origin: center; font-size: 14px; letter-spacing: 0.02em; padding: 14px 6px; }
+    .bar-label span { display: none; }
+    .cue { font-size: 12px; letter-spacing: 0.16em; }
+    /* A tighter top on phones. */
+    header { padding: 14px 0 6px; }
+    .hero { padding-top: 0; gap: 16px; }
+    .hero .btn { min-height: 46px; }
+  }
   .cue .with { color: var(--muted); }
   .cue .arrow { display: inline-block; margin-left: 4px; animation: nudge 2.4s ease-in-out infinite; }
   @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
