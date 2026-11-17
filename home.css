@@ -160,8 +160,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .taskbar img.ic { max-width: none; }
   .taskbar .clock { position: absolute; right: 3%; font-size: clamp(6px, 1vw, 11px); color: rgba(255, 255, 255, 0.72); }
   .win { position: absolute; background: #f7f8fb; border-radius: 8px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4); overflow: hidden; display: flex; flex-direction: column; }
-  .win header { padding: 0 0 0 10px; height: 8%; min-height: 18px; background: #eceef3; border-bottom: 1px solid #dfe2e9; display: flex; align-items: center; justify-content: flex-start; gap: 5px; font-size: 11px; color: #6a7080; }
-  .win header i { width: 8px; height: 8px; border-radius: 50%; background: #cfd3dc; }
+  /* Windows 11 title bars: minimise, maximise and close on the right. */
+  .win header { padding: 0; height: 8%; min-height: 18px; background: #eceef3; border-bottom: 1px solid #dfe2e9; display: flex; align-items: stretch; justify-content: flex-end; }
+  .win header i { position: relative; width: clamp(18px, 7%, 34px); }
+  .win header i::before, .win header i::after { content: ""; position: absolute; left: 50%; top: 50%; background: #5f6573; }
+  .win header .min::before { width: 8px; height: 1px; transform: translate(-50%, -50%); }
+  .win header .max::before { width: 7px; height: 7px; background: none; border: 1px solid #5f6573; border-radius: 1px; transform: translate(-50%, -50%); }
+  .win header .x::before, .win header .x::after { width: 9px; height: 1px; transform: translate(-50%, -50%) rotate(45deg); }
+  .win header .x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+  .call header { background: #1b1d24; border-bottom-color: #2a2d36; }
+  .call header i::before, .call header i::after { background: #a3a9b6; }
+  .call header .max::before { background: none; border-color: #a3a9b6; }
   .body { flex: 1; padding: 5% 6%; display: flex; flex-direction: column; gap: 5%; }
   .body span { display: block; height: 4%; min-height: 5px; border-radius: 3px; background: #dfe2e9; }
   .body b { display: block; height: 6%; min-height: 7px; width: 40%; border-radius: 3px; background: #8b92a3; }
