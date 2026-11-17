@@ -222,11 +222,19 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .warn summary { cursor: pointer; color: var(--accent-ink); font-weight: 600; }
   .warn p { margin-top: 10px; line-height: 1.6; }
   .warn b { color: var(--ink); }
-  .looks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .looks small { margin-left: 6px; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.75; }
-  .looks button { min-height: 40px; padding: 4px 16px; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 20px; }
-  .looks button:hover { color: var(--ink); border-color: var(--accent); }
-  .looks button.on { color: var(--on-accent); background: var(--accent); border-color: var(--accent); font-weight: 600; }
+  /* The bar pills: the same weight on and off, so picking one never shifts the rest. */
+  .looks { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+  .looks button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 8px 0 16px; font-size: 15px; font-weight: 500; line-height: 1; color: var(--ink); background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); border-radius: 999px; transition: border-color 0.15s ease, background 0.15s ease; }
+  .looks button:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); background: rgba(91, 140, 255, 0.08); }
+  .looks small { padding: 4px 7px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; color: var(--accent-ink); background: rgba(91, 140, 255, 0.14); border-radius: 999px; }
+  .looks small.free { color: #8fe0b8; background: rgba(52, 199, 89, 0.14); }
+  .looks button.on { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+  .looks button.on small { color: var(--on-accent); background: rgba(6, 16, 42, 0.18); }
+  .looks .sep { width: 1px; height: 24px; margin: 0 4px; background: var(--line); }
+  /* Cursor mode demo: a ring that follows the pointer. Only where there is one. */
+  #cursor-ring { position: fixed; left: 0; top: 0; width: 76px; height: 76px; z-index: 30; pointer-events: none; }
+  .desk[data-bar="cursor"] .bar { display: none; }
+  @media (hover: none), (pointer: coarse) { .cursor-only { display: none !important; } }
   .bb-plan { background: rgba(18, 23, 38, 0.8); }
   /* Bullets: a small tick in each plan's list, a soft dot in What to expect. */
   .bb-plan ul, .bb-expect { list-style: none; padding-left: 0; }

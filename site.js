@@ -249,7 +249,44 @@ function setBar(mode) {
   desk.dataset.bar = mode;
   edge.classList.toggle('rainbow', mode === 'rainbow');
   for (const b of document.querySelectorAll('[data-plain]')) b.classList.toggle('on', b.dataset.plain === mode);
+  if (mode !== 'cursor') stopRing();
 }
+
+// Cursor mode: the app's ring (ring.js) follows the pointer while one of the ring
+// pills is picked, and the page edge goes empty, as in the app.
+const ring = document.getElementById('cursor-ring');
+let ringOn = false, pointer = null;
+function stopRing() {
+  ringOn = false;
+  ring.hidden = true;
+  for (const b of document.querySelectorAll('[data-cursor]')) b.classList.remove('on');
+}
+function placeRing() {
+  if (!pointer) return;
+  ring.style.transform = `translate(${pointer.x - 38}px, ${pointer.y - 38}px)`;
+}
+addEventListener('pointermove', (e) => {
+  if (e.pointerType !== 'mouse') return;
+  pointer = { x: e.clientX, y: e.clientY };
+  if (ringOn) { ring.hidden = false; placeRing(); }
+}, { passive: true });
+document.documentElement.addEventListener('pointerleave', () => { if (ringOn) ring.hidden = true; });
+for (const b of document.querySelectorAll('[data-cursor]')) {
+  b.addEventListener('click', (e) => {
+    Breath.look('none'); // an empty page edge
+    const edgeCanvas = document.getElementById('scene'), g = edgeCanvas.getContext('2d');
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, edgeCanvas.width, edgeCanvas.height);
+    setBar('cursor');
+    Ring.configure({ ringStyle: b.dataset.cursor, colorMode: b.dataset.cursor === 'glow' ? 'rainbow' : 'single', color: '#5b8cff' }, 76);
+    ringOn = true;
+    for (const other of document.querySelectorAll('[data-cursor]')) other.classList.toggle('on', other === b);
+    pointer = pointer ?? { x: e.clientX, y: e.clientY };
+    ring.hidden = false;
+    placeRing();
+  });
+}
+Breath.on((s) => { if (ringOn) Ring.draw(s.level, s.glow, performance.now()); });
 for (const b of document.querySelectorAll('[data-plain]')) b.addEventListener('click', () => { Breath.look('plain-' + b.dataset.plain); setBar(b.dataset.plain); });
 for (const b of document.querySelectorAll('[data-style]')) b.addEventListener('click', () => setBar('scene'));
 
@@ -362,5 +399,10 @@ for (const link of document.querySelectorAll('[data-get]')) {
 for (const b of document.querySelectorAll('.looks button')) {
   b.addEventListener('click', () => Stats.send('bar_picked', { bar: b.dataset.plain ?? b.dataset.style }));
 }
+
+// Always open at the top (Safari otherwise puts a reloaded page back where it was),
+// unless the link points at a part of the page.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (!location.hash) scrollTo(0, 0);
 
 Breath.start();
