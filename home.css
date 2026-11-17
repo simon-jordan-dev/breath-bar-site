@@ -87,7 +87,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
   :root { --bg: #0b0e17; --ink: #eef1f8; --muted: #9aa3b8; --line: #232a3d; --surface: #121726; --accent: #5b8cff; --accent-ink: #9dbaff; --on-accent: #06102a; --radius: 12px; color-scheme: dark; }
   html, body { overflow-x: clip; }
   html { background: var(--bg); }
-  body { background: radial-gradient(1200px 760px at 80% 0%, #17223f 0%, transparent 62%), var(--bg); }
+  /* Safari 26 fills the strip behind the status bar with the page's plain background
+     colour, so the soft glow at the top fades in below the very top edge. */
+  body { background: transparent; }
+  body::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 900px; z-index: -1; pointer-events: none; background: radial-gradient(1200px 760px at 80% 0%, #17223f 0%, transparent 62%); -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 140px); mask-image: linear-gradient(to bottom, transparent 0, #000 140px); }
   #scene { position: fixed; top: 0; right: 0; width: 60px; height: 100vh; height: 100lvh; height: calc(100lvh + env(safe-area-inset-bottom, 0px)); z-index: 5; pointer-events: none; }
   /* iPhone Safari cuts fixed elements off at its floating address bar, but draws the
      page's own content under it. So the bar sits in a rail that runs the page's full
