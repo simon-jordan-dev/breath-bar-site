@@ -150,8 +150,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
   /* The desk (03), at night. */
   .desk { position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #2c3550; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); background: radial-gradient(70% 90% at 15% 10%, rgba(120, 150, 255, 0.35), transparent 60%), radial-gradient(60% 80% at 90% 100%, rgba(60, 200, 190, 0.25), transparent 60%), linear-gradient(160deg, #1b2440, #24345a 45%, #2c4a62); }
   .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 6.5%; background: rgba(14, 18, 30, 0.78); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; gap: 1.2%; }
-  .taskbar i { width: 2.4%; aspect-ratio: 1; border-radius: 22%; background: #7d8597; opacity: 0.45; }
-  .taskbar i:first-child { background: var(--accent); opacity: 1; }
+  .taskbar .start { display: grid; grid-template-columns: 1fr 1fr; gap: 8%; width: 2.1%; aspect-ratio: 1; }
+  .taskbar .start i { background: #4aa3ff; border-radius: 1px; }
+  .taskbar .search { width: 10%; height: 52%; border-radius: 999px; background: rgba(255, 255, 255, 0.12); }
+  .taskbar .ic { width: 2.5%; aspect-ratio: 1; border-radius: 22%; }
+  .taskbar .folder { background: linear-gradient(#ffd56b, #e8a93a); }
+  .taskbar .web { border-radius: 50%; background: radial-gradient(circle at 35% 35%, #7dd3fc, #2563eb 70%); }
+  .taskbar .mail { background: linear-gradient(135deg, #8b7cf6, #5b4bd6); }
+  .taskbar img.ic { max-width: none; }
+  .taskbar .clock { position: absolute; right: 3%; font-size: clamp(6px, 1vw, 11px); color: rgba(255, 255, 255, 0.72); }
   .win { position: absolute; background: #f7f8fb; border-radius: 8px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4); overflow: hidden; display: flex; flex-direction: column; }
   .win header { padding: 0 0 0 10px; height: 8%; min-height: 18px; background: #eceef3; border-bottom: 1px solid #dfe2e9; display: flex; align-items: center; justify-content: flex-start; gap: 5px; font-size: 11px; color: #6a7080; }
   .win header i { width: 8px; height: 8px; border-radius: 50%; background: #cfd3dc; }
@@ -167,7 +174,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .code .body span:nth-child(4n) { background: #8a6fc0; }
   .faces { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 3%; padding: 4%; background: #1b1d24; }
   .faces div { border-radius: 6px; background: #2c303c; display: grid; place-items: center; }
-  .faces div::after { content: ''; width: 26%; aspect-ratio: 1; border-radius: 50%; background: #596078; }
+  .faces div::after { content: ''; width: 34%; aspect-ratio: 1; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #ec4899); }
+  .faces div:nth-child(2)::after { background: linear-gradient(135deg, #22d3ee, #6366f1); }
+  /* Call controls, so the window reads as a video call: mic, camera, hang up. */
+  .call .controls { display: flex; justify-content: center; align-items: center; gap: 5%; height: 20%; background: #15171d; }
+  .call .controls i { height: 56%; aspect-ratio: 1; border-radius: 50%; background: #3a3f4b; }
+  .call .controls i.end { aspect-ratio: 2 / 1; border-radius: 999px; background: #e5484d; }
   /* The mock's bar: a plain blue bar until a scene is picked below, then a
      copy of the page-edge scene, scaled to the desk. */
   .bar { position: absolute; top: 0; right: 0; bottom: 6.5%; width: 2%; min-width: 8px; background: rgba(91, 140, 255, 0.18); opacity: 0.6; }
