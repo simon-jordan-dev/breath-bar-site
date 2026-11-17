@@ -88,6 +88,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
   html, body { overflow-x: clip; }
   body { background: radial-gradient(1200px 760px at 80% 0%, #17223f 0%, transparent 62%), var(--bg); }
   #scene { position: fixed; top: 0; right: 0; width: 60px; height: 100vh; height: 100lvh; z-index: 5; pointer-events: none; }
+  /* iPhone Safari cuts fixed elements off at its floating address bar, but draws the
+     page's own content under it. So the bar sits in a rail that runs the page's full
+     length, and sticks to the top of the screen inside it instead of being fixed. */
+  body { position: relative; }
+  .rail { position: absolute; top: 0; right: 0; bottom: 0; z-index: 5; pointer-events: none; }
+  .rail > #scene, .rail > .edge { position: sticky; top: 0; display: block; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); padding-right: calc(60px + clamp(16px, 3vw, 40px)); }
   /* Plain bars as the app draws them: the fill uncovers a colour band that
      stays put (so Rainbow shows more colours as it fills, never squashed),
