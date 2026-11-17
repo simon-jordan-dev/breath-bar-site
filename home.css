@@ -119,7 +119,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .hero { position: relative; padding: clamp(8px, 3vh, 32px) 0 40px; display: flex; flex-direction: column; gap: 22px; }
   .halo { position: absolute; left: -14%; top: 40%; width: min(560px, 80vw); height: min(560px, 80vw); margin-top: calc(min(560px, 80vw) / -2); border-radius: 50%; background: radial-gradient(circle, rgba(91, 140, 255, 0.3), transparent 65%); opacity: calc(0.25 + var(--level, 0) * 0.75); transform: scale(calc(0.7 + var(--level, 0) * 0.45)); pointer-events: none; }
   .hero > :not(.halo) { position: relative; }
-  .cue { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-ink); }
+  .cue { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-ink); white-space: nowrap; }
+  .cue .now { display: inline-block; min-width: 8.6em; }
+  /* A short label beside the bar, until the visitor scrolls on. */
+  .bar-label { position: fixed; top: 34%; right: 70px; z-index: 6; margin: 0; padding: 6px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--ink); background: rgba(18, 23, 38, 0.88); border: 1px solid var(--line); border-radius: 999px; pointer-events: none; transition: opacity 0.4s ease; }
+  .bar-label span { color: var(--accent-ink); }
+  .bar-label.gone { opacity: 0; }
+  @media (max-width: 600px) { .bar-label { right: 10px; top: 24%; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; padding: 10px 4px; } .bar-label span { display: none; } .cue { font-size: 12px; letter-spacing: 0.16em; } }
   .cue .with { color: var(--muted); }
   .cue .arrow { display: inline-block; margin-left: 4px; animation: nudge 2.4s ease-in-out infinite; }
   @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }

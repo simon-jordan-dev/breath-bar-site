@@ -301,4 +301,8 @@ for (const b of document.querySelectorAll('.answers button')) {
   });
 }
 
+// The label beside the bar fades once the visitor scrolls past the top.
+const barLabel = document.getElementById('bar-label');
+addEventListener('scroll', () => barLabel.classList.toggle('gone', scrollY > 120), { passive: true });
+
 Breath.start();
