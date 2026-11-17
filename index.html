@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0b0e17">
-  <link rel="stylesheet" href="home.css?v=20261117i">
+  <link rel="stylesheet" href="home.css?v=20261117j">
 </head>
 <body>
   <p class="bar-label" id="bar-label" data-level aria-hidden="true">Breathe with me <span>→</span></p>
@@ -28,7 +28,7 @@
   <div class="wrap">
     <header><b>Breath Bar</b><a href="#more">Details ↓</a></header>
 
-    <section class="hero">
+    <section class="hero" data-section="hero">
       <div class="halo" data-level aria-hidden="true"></div>
       <p class="cue"><span class="now" data-cue>Breathe in</span> <span class="with">with the bar</span> <span class="arrow" aria-hidden="true">→</span></p>
       <h1>Breathe slower. <span>Keep working.</span></h1>
@@ -41,7 +41,7 @@
       </div>
     </section>
 
-    <div class="desk" data-bar="blue" aria-hidden="true">
+    <div class="desk" data-bar="blue" data-section="desk" aria-hidden="true">
       <div class="win" style="left: 4%; top: 7%; width: 47%; height: 70%"><header><i></i><i></i><i></i>Report.docx</header><div class="body"><b></b><span style="width: 94%"></span><span style="width: 88%"></span><span style="width: 96%"></span><span style="width: 62%"></span><b style="width: 30%"></b><span style="width: 90%"></span><span style="width: 84%"></span><span style="width: 70%"></span></div></div>
       <div class="win call" style="left: 33%; top: 47%; width: 27%; height: 38%"><header><i></i><i></i><i></i>Weekly sync</header><div class="faces"><div></div><div></div></div></div>
       <img class="app" src="app-settings.png" alt="" style="left: 65%; top: 5%; height: 84%">
@@ -50,7 +50,7 @@
       <div class="note"><span data-cue>Breathe in</span></div>
     </div>
 
-    <div class="pick">
+    <div class="pick" data-section="picker">
       <p>The edge of this page is showing Wave. Try another bar:</p>
       <div class="looks" role="group" aria-label="Bar on this page">
         <button type="button" data-plain="blue">Blue<small>Free</small></button>
@@ -64,7 +64,7 @@
     </div>
 
     <main id="more">
-      <section><h2>Free to use. <b>Pro if you want more.</b></h2><div class="bb-plans">
+      <section data-section="prices"><h2>Free to use. <b>Pro if you want more.</b></h2><div class="bb-plans">
           <div class="bb-plan">
             <h3>Free</h3>
             <p class="bb-price">$0</p>
@@ -94,7 +94,7 @@
           </div>
         </div></section>
 
-      <section class="about">
+      <section class="about" data-section="about">
         <ul class="bb-expect">
           <li><b>Made for wandering attention.</b> If you have ADHD, or your focus drifts at a screen, there's nothing to remember: the bar is there whenever you glance over.</li>
           <li><b>It's a guide, not a treatment.</b> Breath Bar shows a pace to follow. It isn't a medical product and doesn't promise results.</li>
@@ -106,7 +106,7 @@
         </figure>
       </section>
 
-      <section class="last">
+      <section class="last" data-section="end">
         <h2>Try it today. <b>It's free.</b></h2>
         <a class="btn" href="#" data-get="windows">Download for Windows</a>
       </section>
@@ -129,6 +129,6 @@
   <script src="scenes/grass.js"></script>
   <script src="scenes/sunrise.js"></script>
   <script src="scenes/snow.js"></script>
-  <script src="site.js?v=20261117i"></script>
+  <script src="site.js?v=20261117j"></script>
 </body>
 </html>

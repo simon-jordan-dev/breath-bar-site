@@ -280,4 +280,87 @@ for (const a of document.querySelectorAll('a[href="#first-run-warning"]')) a.add
 const barLabel = document.getElementById('bar-label');
 addEventListener('scroll', () => barLabel.classList.toggle('gone', scrollY > 120), { passive: true });
 
+// ---------- Anonymous visit statistics ----------
+// A few counts sent to PostHog (EU), the same service the app uses: the visit,
+// which parts of the page were seen, and which buttons were clicked. No cookies
+// and nothing stored in the browser: the ID is random and lasts only for this
+// page view, so visits can't be linked to each other or to a person.
+// Only breathbar.app sends; a copy opened anywhere else just logs to the console.
+const Stats = (() => {
+  const LIVE = location.hostname === 'breathbar.app';
+  const HOST = 'https://eu.i.posthog.com';
+  const TOKEN = 'phc_wonXbJTvvXBJkvp2oKBV9q5SaPYxGVdZEYV2rhEF5m9g'; // the project's public key
+  const id = 'visit-' + (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
+  const started = performance.now();
+  const query = new URLSearchParams(location.search);
+  let referrer = '';
+  try { referrer = document.referrer ? new URL(document.referrer).hostname : ''; } catch {}
+  const common = {
+    $lib: 'breath-bar-site',
+    $process_person_profile: false,
+    $current_url: location.origin + location.pathname,
+    $pathname: location.pathname,
+    $referring_domain: referrer || '$direct',
+    $screen_width: screen.width,
+    $viewport_width: innerWidth,
+    $device_type: /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+    language: navigator.language,
+    utm_source: query.get('utm_source') || undefined,
+    utm_medium: query.get('utm_medium') || undefined,
+    utm_campaign: query.get('utm_campaign') || undefined,
+  };
+  function send(event, props = {}) {
+    const item = { event, distinct_id: id, timestamp: new Date().toISOString(), properties: { ...common, ...props } };
+    if (!LIVE) { console.log('[stats]', event, props); return; }
+    try {
+      fetch(HOST + '/batch/', {
+        method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ api_key: TOKEN, batch: [item] }),
+      }).catch(() => {});
+    } catch {}
+  }
+
+  // Sections seen, once each.
+  const seen = new Set();
+  const watch = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      const name = e.target.dataset.section;
+      if (e.isIntersecting && !seen.has(name)) { seen.add(name); send('section_seen', { section: name }); }
+    }
+  }, { threshold: 0.4 });
+  for (const el of document.querySelectorAll('[data-section]')) watch.observe(el);
+
+  // How far down the page they got, and for how long, when they leave.
+  let deepest = 0;
+  addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (max > 0) deepest = Math.max(deepest, Math.round(scrollY / max * 100));
+  }, { passive: true });
+  let left = false;
+  function leave() {
+    if (left) return;
+    left = true;
+    send('$pageleave', { scrolled_percent: deepest, seconds_on_page: Math.round((performance.now() - started) / 1000) });
+  }
+  addEventListener('pagehide', leave);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') leave(); });
+
+  send('$pageview');
+  return { send };
+})();
+
+// Clicks on the download, coming-soon and buy buttons, and on the bar picker.
+for (const link of document.querySelectorAll('[data-get]')) {
+  link.addEventListener('click', () => {
+    const where = link.closest('[data-section]')?.dataset.section ?? 'page';
+    const get = link.dataset.get;
+    if (get === 'windows') Stats.send('download_clicked', { where });
+    else if (get === 'android') Stats.send('coming_soon_clicked', { where });
+    else Stats.send('buy_clicked', { where, plan: get });
+  });
+}
+for (const b of document.querySelectorAll('.looks button')) {
+  b.addEventListener('click', () => Stats.send('bar_picked', { bar: b.dataset.plain ?? b.dataset.style }));
+}
+
 Breath.start();
