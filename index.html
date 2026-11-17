@@ -5,10 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Breath Bar</title>
   <meta name="description" content="Slow your breathing without stopping work. A thin bar on the edge of your screen rises and falls at a calm pace. Free for Windows, with Pro from $2.99 a month.">
+  <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
   <!-- How the link looks when shared (Reddit, X, Discord, iMessage...). -->
   <meta property="og:type" content="website">
+  <!-- For search engines: what Breath Bar is, where it runs and what it costs. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Breath Bar",
+    "url": "https://breathbar.app/",
+    "image": "https://breathbar.app/og.png",
+    "description": "A breathing guide on the edge of your screen. A thin bar rises as you breathe in and falls as you breathe out, while you keep working.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Windows 10, Windows 11",
+    "offers": [
+      { "@type": "Offer", "name": "Breath Bar", "price": "0", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Breath Bar Pro, monthly", "price": "2.99", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Breath Bar Pro, yearly", "price": "19.99", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Breath Bar Pro, lifetime", "price": "39.99", "priceCurrency": "USD" }
+    ]
+  }
+  </script>
   <meta property="og:url" content="https://breathbar.app/">
   <meta property="og:title" content="Breath Bar: slow your breathing without stopping work">
   <meta property="og:description" content="A thin bar on the edge of your screen rises and falls at a calm pace. Glance at it, breathe with it, keep working. Free for Windows.">
@@ -17,11 +37,12 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0b0e17">
-  <link rel="stylesheet" href="home.css?v=20261117m">
+  <link rel="stylesheet" href="home.css?v=20261117n">
 </head>
 <body>
   <p class="bar-label" id="bar-label" data-level aria-hidden="true">Breathe with me <span>→</span></p>
   <canvas id="cursor-ring" aria-hidden="true" hidden></canvas>
+  <div id="cursor-dot" aria-hidden="true" hidden></div>
   <div class="rail" aria-hidden="true">
     <canvas id="scene"></canvas>
     <div class="edge thin" data-solid data-level hidden><i></i></div>
@@ -134,6 +155,6 @@
   <script src="scenes/sunrise.js"></script>
   <script src="scenes/snow.js"></script>
   <script src="ring.js"></script>
-  <script src="site.js?v=20261117m"></script>
+  <script src="site.js?v=20261117n"></script>
 </body>
 </html>

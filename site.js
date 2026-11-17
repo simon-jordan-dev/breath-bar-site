@@ -254,16 +254,18 @@ function setBar(mode) {
 
 // Cursor mode: the app's ring (ring.js) follows the pointer while one of the ring
 // pills is picked, and the page edge goes empty, as in the app.
-const ring = document.getElementById('cursor-ring');
+const ring = document.getElementById('cursor-ring'), dot = document.getElementById('cursor-dot');
 let ringOn = false, pointer = null;
 function stopRing() {
   ringOn = false;
-  ring.hidden = true;
+  ring.hidden = dot.hidden = true;
+  document.documentElement.classList.remove('ring-on');
   for (const b of document.querySelectorAll('[data-cursor]')) b.classList.remove('on');
 }
 function placeRing() {
   if (!pointer) return;
   ring.style.transform = `translate(${pointer.x - 70}px, ${pointer.y - 70}px)`;
+  dot.style.transform = `translate(${pointer.x - 4}px, ${pointer.y - 4}px)`;
 }
 // Follow the pointer as closely as the browser allows: the faster raw updates where
 // there are any, and the browser's prediction of where the pointer is heading.
@@ -271,10 +273,10 @@ function follow(e) {
   if (e.pointerType !== 'mouse') return;
   const ahead = e.getPredictedEvents?.().at(-1) ?? e;
   pointer = { x: ahead.clientX, y: ahead.clientY };
-  if (ringOn) { ring.hidden = false; placeRing(); }
+  if (ringOn) { ring.hidden = dot.hidden = false; placeRing(); }
 }
 addEventListener('onpointerrawupdate' in window ? 'pointerrawupdate' : 'pointermove', follow, { passive: true });
-document.documentElement.addEventListener('pointerleave', () => { if (ringOn) ring.hidden = true; });
+document.documentElement.addEventListener('pointerleave', () => { if (ringOn) ring.hidden = dot.hidden = true; });
 for (const b of document.querySelectorAll('[data-cursor]')) {
   b.addEventListener('click', (e) => {
     Breath.look('none'); // an empty page edge
@@ -289,7 +291,8 @@ for (const b of document.querySelectorAll('[data-cursor]')) {
     ringOn = true;
     for (const other of document.querySelectorAll('[data-cursor]')) other.classList.toggle('on', other === b);
     pointer = pointer ?? { x: e.clientX, y: e.clientY };
-    ring.hidden = false;
+    ring.hidden = dot.hidden = false;
+    document.documentElement.classList.add('ring-on');
     placeRing();
   });
 }
@@ -410,6 +413,13 @@ for (const b of document.querySelectorAll('.looks button')) {
 // Always open at the top (Safari otherwise puts a reloaded page back where it was),
 // unless the link points at a part of the page.
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-if (!location.hash) scrollTo(0, 0);
+if (location.hash === '#more') history.replaceState(null, '', location.pathname + location.search);
+const toTop = () => { if (!location.hash) scrollTo(0, 0); };
+toTop();
+addEventListener('load', toTop);
+addEventListener('pageshow', toTop);
+for (const a of document.querySelectorAll('a[href="#more"]')) {
+  a.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('more').scrollIntoView({ behavior: 'smooth' }); });
+}
 
 Breath.start();

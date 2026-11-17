@@ -234,6 +234,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   /* Cursor mode demo: a ring that follows the pointer. Only where there is one. */
   #cursor-ring { position: fixed; left: 0; top: 0; width: 140px; height: 140px; will-change: transform; z-index: 30; pointer-events: none; }
   .desk[data-bar="cursor"] .bar { display: none; }
+  html.ring-on, html.ring-on * { cursor: none !important; }
+  #cursor-dot { position: fixed; left: 0; top: 0; width: 8px; height: 8px; z-index: 31; pointer-events: none; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px rgba(6, 16, 42, 0.8); will-change: transform; }
   @media (hover: none), (pointer: coarse) { .cursor-only { display: none !important; } }
   .bb-plan { background: rgba(18, 23, 38, 0.8); }
   /* Bullets: a small tick in each plan's list, a soft dot in What to expect. */
