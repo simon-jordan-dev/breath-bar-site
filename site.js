@@ -263,7 +263,7 @@ function stopRing() {
 }
 function placeRing() {
   if (!pointer) return;
-  ring.style.transform = `translate(${pointer.x - 38}px, ${pointer.y - 38}px)`;
+  ring.style.transform = `translate(${pointer.x - 70}px, ${pointer.y - 70}px)`;
 }
 addEventListener('pointermove', (e) => {
   if (e.pointerType !== 'mouse') return;
@@ -278,7 +278,10 @@ for (const b of document.querySelectorAll('[data-cursor]')) {
     g.setTransform(1, 0, 0, 1, 0, 0);
     g.clearRect(0, 0, edgeCanvas.width, edgeCanvas.height);
     setBar('cursor');
-    Ring.configure({ ringStyle: b.dataset.cursor, colorMode: b.dataset.cursor === 'glow' ? 'rainbow' : 'single', color: '#5b8cff' }, 76);
+    // As set in the app: Size 100 (the drawing is the size plus 32, as in main.js), and
+    // 70% transparency for the rainbow ring, 60% for the wave.
+    Ring.configure({ ringStyle: b.dataset.cursor, colorMode: b.dataset.cursor === 'glow' ? 'rainbow' : 'single', color: '#5b8cff' }, 132);
+    ring.style.opacity = b.dataset.cursor === 'glow' ? 0.3 : 0.4;
     ringOn = true;
     for (const other of document.querySelectorAll('[data-cursor]')) other.classList.toggle('on', other === b);
     pointer = pointer ?? { x: e.clientX, y: e.clientY };
