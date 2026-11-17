@@ -275,8 +275,35 @@ function follow(e) {
 }
 addEventListener('onpointerrawupdate' in window ? 'pointerrawupdate' : 'pointermove', follow, { passive: true });
 document.documentElement.addEventListener('pointerleave', () => { if (ringOn) ring.hidden = true; });
+// Only Wave loads with the page. The other scenes and the ring load when the visitor
+// gets near the bar picker, or at the latest when they tap a pill.
+const loaded = {};
+function load(src) {
+  return (loaded[src] ??= new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.body.append(s);
+  }));
+}
+const EXTRA = { aurora: 'scenes/aurora.js', grass: 'scenes/grass.js', sunrise: 'scenes/sunrise.js', snow: 'scenes/snow.js' };
+const loadExtras = () => Promise.all([...Object.values(EXTRA), 'ring.js'].map(load)).catch(() => {});
+new IntersectionObserver((entries, watcher) => {
+  if (entries.some((e) => e.isIntersecting)) { loadExtras(); watcher.disconnect(); }
+}, { rootMargin: '400px' }).observe(document.querySelector('.pick'));
+for (const b of document.querySelectorAll('[data-style]')) {
+  const src = EXTRA[b.dataset.style];
+  if (!src) continue;
+  b.addEventListener('click', () => {
+    if (Scene.has(b.dataset.style)) return;
+    load(src).then(() => { if (b.classList.contains('on')) Breath.look(b.dataset.style); });
+  });
+}
+
 for (const b of document.querySelectorAll('[data-cursor]')) {
-  b.addEventListener('click', (e) => {
+  b.addEventListener('click', async (e) => {
+    await load('ring.js');
     Breath.look('none'); // an empty page edge
     const edgeCanvas = document.getElementById('scene'), g = edgeCanvas.getContext('2d');
     g.setTransform(1, 0, 0, 1, 0, 0);
