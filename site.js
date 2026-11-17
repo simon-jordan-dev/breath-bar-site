@@ -288,19 +288,6 @@ for (const b of document.querySelectorAll('.tabs button')) {
   });
 }
 
-const REPLIES = {
-  short: '<b>That\'s the usual one.</b> Look at the bar on the right and match it: in as it rises, out as it falls. Three breaths is enough to feel the difference in pace.',
-  held: '<b>Very common while reading or typing.</b> Let it go, then follow the bar on the right: in as it rises, out as it falls.',
-  fine: '<b>Nice.</b> The hard part is keeping that pace once you\'re busy again. That\'s what the bar on the right is for: it stays there so you don\'t have to remember.',
-  unsure: '<b>Fair enough, almost nobody does.</b> Watch the bar on the right for a moment and breathe with it: in as it rises, out as it falls.',
-};
-for (const b of document.querySelectorAll('.answers button')) {
-  b.addEventListener('click', () => {
-    for (const other of document.querySelectorAll('.answers button')) other.classList.toggle('on', other === b);
-    document.getElementById('reply').innerHTML = REPLIES[b.dataset.a];
-  });
-}
-
 // The label beside the bar fades once the visitor scrolls past the top.
 const barLabel = document.getElementById('bar-label');
 addEventListener('scroll', () => barLabel.classList.toggle('gone', scrollY > 120), { passive: true });

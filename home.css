@@ -198,7 +198,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .maker img { width: 44px; height: 44px; border-radius: 11px; flex: none; }
 
   /* Lines and the scene picker (04). */
-  .pick { margin-top: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .pick p { color: var(--muted); max-width: 34em; }
+  .about { display: grid; gap: 28px; }
+  .last { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
   .pick h3 { font: 600 20px/1.25 var(--display); margin-bottom: 6px; }
   .pick p { color: var(--muted); max-width: 34em; }
   .warn { max-width: 46em; color: var(--muted); }
