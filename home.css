@@ -35,7 +35,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- The bar on the page's edge ---------- */
 /* The bar runs the full height of the screen, behind a phone browser's toolbars too (lvh). */
-.edge { position: fixed; top: 0; right: 0; height: 100vh; height: 100lvh; width: var(--bar-width); background: color-mix(in srgb, var(--accent) 16%, transparent); z-index: 5; pointer-events: none; }
+.edge { position: fixed; top: 0; right: 0; height: 100vh; height: 100lvh; height: calc(100lvh + env(safe-area-inset-bottom, 0px)); width: var(--bar-width); background: color-mix(in srgb, var(--accent) 16%, transparent); z-index: 5; pointer-events: none; }
 .edge > i, .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background: var(--accent); transform-origin: bottom; transform: scaleY(0); }
 .edge.left { right: auto; left: 0; }
 #scene.edge-scene { position: fixed; top: 0; right: 0; width: 72px; height: 100%; z-index: 5; pointer-events: none; }
@@ -87,7 +87,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   :root { --bg: #0b0e17; --ink: #eef1f8; --muted: #9aa3b8; --line: #232a3d; --surface: #121726; --accent: #5b8cff; --accent-ink: #9dbaff; --on-accent: #06102a; --radius: 12px; color-scheme: dark; }
   html, body { overflow-x: clip; }
   body { background: radial-gradient(1200px 760px at 80% 0%, #17223f 0%, transparent 62%), var(--bg); }
-  #scene { position: fixed; top: 0; right: 0; width: 60px; height: 100vh; height: 100lvh; z-index: 5; pointer-events: none; }
+  #scene { position: fixed; top: 0; right: 0; width: 60px; height: 100vh; height: 100lvh; height: calc(100lvh + env(safe-area-inset-bottom, 0px)); z-index: 5; pointer-events: none; }
   /* iPhone Safari cuts fixed elements off at its floating address bar, but draws the
      page's own content under it. So the bar sits in a rail that runs the page's full
      length, and sticks to the top of the screen inside it instead of being fixed. */
