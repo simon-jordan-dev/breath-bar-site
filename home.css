@@ -120,6 +120,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .halo { position: absolute; left: -14%; top: 40%; width: min(560px, 80vw); height: min(560px, 80vw); margin-top: calc(min(560px, 80vw) / -2); border-radius: 50%; background: radial-gradient(circle, rgba(91, 140, 255, 0.3), transparent 65%); opacity: calc(0.25 + var(--level, 0) * 0.75); transform: scale(calc(0.7 + var(--level, 0) * 0.45)); pointer-events: none; }
   .hero > :not(.halo) { position: relative; }
   .cue { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-ink); }
+  .cue .with { color: var(--muted); }
+  .cue .arrow { display: inline-block; margin-left: 4px; animation: nudge 2.4s ease-in-out infinite; }
+  @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
   h1 { font: 650 clamp(40px, 7vw, 88px)/1.02 var(--display); letter-spacing: -0.03em; max-width: 12em; text-wrap: balance; }
   h1 span { font-weight: 300; color: var(--muted); }
   .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }

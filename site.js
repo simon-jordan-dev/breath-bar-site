@@ -215,6 +215,31 @@ if (/Android|iPhone/i.test(navigator.userAgent)) {
 }
 
 // ---------- This page ----------
+// The plain Blue and Rainbow bars are drawn on the same canvas as the scenes, so
+// on iPhone they reach the bottom of the screen just like the scenes do.
+const PLAIN_RAINBOW = ['#ff3b30', '#ff9500', '#ffcc00', '#34c759', '#00c7be', '#007aff', '#af52de'];
+function plainBar(rainbow) {
+  return {
+    draw(ctx, s) {
+      const w = Math.round(s.T * 0.4); // 24 px of the 60 px edge on computers, 16 of 40 on phones
+      const k = 0.6 / 0.7;            // the plain bars are a little more see-through than scenes
+      let paint = 'rgb(91, 140, 255)';
+      if (rainbow) {
+        paint = ctx.createLinearGradient(0, 0, s.L, 0);
+        PLAIN_RAINBOW.forEach((c, i) => paint.addColorStop(i / (PLAIN_RAINBOW.length - 1), c));
+      }
+      ctx.fillStyle = paint;
+      ctx.globalAlpha = (rainbow ? 0.22 : 0.16) * k;
+      ctx.fillRect(0, 0, s.L, w);
+      ctx.globalAlpha = k;
+      ctx.fillRect(0, 0, s.front, w);
+      ctx.globalAlpha = 1;
+    },
+  };
+}
+Scene.register('plain-blue', plainBar(false));
+Scene.register('plain-rainbow', plainBar(true));
+
 Breath.look('wave', { edge: 'right', color: '#5b8cff' });
 
 // Copy the page-edge scene into the mock's bar every frame, at the same
@@ -225,7 +250,7 @@ function setBar(mode) {
   edge.classList.toggle('rainbow', mode === 'rainbow');
   for (const b of document.querySelectorAll('[data-plain]')) b.classList.toggle('on', b.dataset.plain === mode);
 }
-for (const b of document.querySelectorAll('[data-plain]')) b.addEventListener('click', () => { Breath.look('solid'); setBar(b.dataset.plain); });
+for (const b of document.querySelectorAll('[data-plain]')) b.addEventListener('click', () => { Breath.look('plain-' + b.dataset.plain); setBar(b.dataset.plain); });
 for (const b of document.querySelectorAll('[data-style]')) b.addEventListener('click', () => setBar('scene'));
 
 // Any blue-warning link on the page opens the folded steps.
