@@ -199,13 +199,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .quote { margin: 8px 0 0; max-width: 36em; position: relative; padding-top: 34px; }
   .quote::before { content: "\201C"; position: absolute; top: -14px; left: -4px; font: 700 88px/1 Georgia, "Times New Roman", serif; color: var(--accent); opacity: 0.55; }
   .quote blockquote { margin: 0; }
-  .quote blockquote p { font: 400 clamp(20px, 2.4vw, 24px)/1.45 var(--display); color: var(--ink); text-wrap: pretty; }
+  .quote blockquote p { font: italic 400 clamp(20px, 2.4vw, 24px)/1.45 var(--display); color: var(--ink); text-wrap: pretty; }
   .quote figcaption { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 15px; color: var(--muted); }
   .quote figcaption img { width: 28px; height: 28px; border-radius: 7px; }
   .quote figcaption::before { content: ""; width: 24px; height: 1px; background: var(--line); }
 
   /* Lines and the scene picker (04). */
-  .pick p { color: var(--muted); max-width: 34em; }
+  /* The bar picker under the desk. */
+  .pick { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; text-align: center; }
+  .pick .looks { justify-content: center; margin: 0; }
+  .call .faces { grid-template-columns: 1fr 1fr; }
   .about { display: grid; gap: 28px; }
   .last { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
   /* Pro's other plans, under the monthly price. */

@@ -275,18 +275,6 @@ for (const a of document.querySelectorAll('a[href="#first-run-warning"]')) a.add
   requestAnimationFrame(frame);
 })();
 
-const CAPTIONS = {
-  write: 'Your clicks go straight through the bar, so it never blocks a scrollbar or a button.',
-  code: 'It sits at the edge of your vision. Glance over between thoughts, and ignore it when you\'re deep in something.',
-  call: 'In a call, you still see the bar. The people you share your screen with don\'t.',
-};
-for (const b of document.querySelectorAll('.tabs button')) {
-  b.addEventListener('click', () => {
-    for (const other of document.querySelectorAll('.tabs button')) other.classList.toggle('on', other === b);
-    for (const set of document.querySelectorAll('.scene-set')) set.classList.toggle('on', set.dataset.set === b.dataset.set);
-    document.getElementById('caption').textContent = CAPTIONS[b.dataset.set];
-  });
-}
 
 // The label beside the bar fades once the visitor scrolls past the top.
 const barLabel = document.getElementById('bar-label');
