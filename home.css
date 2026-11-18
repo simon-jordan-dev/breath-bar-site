@@ -48,7 +48,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bb-price { font-size: 34px; font-weight: 650; letter-spacing: -0.02em; line-height: 1; }
 .bb-price span { font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
 .bb-plan ul { flex: 1; margin: 4px 0 8px; padding: 0 0 0 1.1em; display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-size: 16px; }
-.bb-plan .btn { align-self: flex-start; }
 
 /* ---------- What to expect, installing ---------- */
 .bb-expect { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; color: var(--muted); font-size: 16px; }
@@ -75,8 +74,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 /* ---------- Pro's buy buttons ---------- */
-.buys { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; } /* the same space above the button as below it */
-.buys .btn { min-height: 46px; padding: 0 18px; }
+/* Full-width buttons: Yearly on its own row, Monthly and Lifetime side by side under it. */
+.buys { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 8px; }
+.buys .btn { grid-column: span 2; width: 100%; min-height: 48px; padding: 0 12px; white-space: nowrap; }
+.buys .btn + .btn.ghost { grid-column: span 1; }
+.buys .btn.ghost { box-shadow: none; }
+@media (max-width: 420px) { .buys .btn + .btn.ghost { grid-column: span 2; } }
 .get-row { display: flex; flex-wrap: wrap; gap: 10px; }
 /* The two plans line up row by row: name, price, small print, list, note, buttons. */
 .bb-plans { grid-template-rows: repeat(6, auto); }
