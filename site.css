@@ -192,6 +192,11 @@ h3 { margin: 0; font-size: 26px; line-height: 1.2; letter-spacing: -0.012em; }
   .fb-skip { right: 28px; }
   .fb-words { padding-left: 20px; padding-right: 40px; }
 }
+/* The smallest phones (iPhone SE and mini, 375 px): shrink the headline's second line just
+   enough that "in the corner of your eye." stays on one line instead of leaving "eye." alone. */
+@media (max-width: 380px) {
+  h1 span { display: inline-block; font-size: min(1em, calc((100vw - 78px) / 9.6)); }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .fb-fill { transition: none; }
