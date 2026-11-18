@@ -7,7 +7,7 @@ const LINKS = {
 };
 // Pro is sold through our key service (the breath-bar-keys project), which opens
 // Stripe Checkout for the chosen plan. Turn this on once Stripe is live.
-const PRO_ON_SALE = false;
+const PRO_ON_SALE = true;
 const KEYS_API = 'https://api.breathbar.app';
 for (const plan of ['monthly', 'yearly', 'lifetime']) LINKS[`pro-${plan}`] = PRO_ON_SALE ? `${KEYS_API}/buy?plan=${plan}` : '';
 
