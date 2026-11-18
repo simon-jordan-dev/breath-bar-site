@@ -4,8 +4,12 @@
 const LINKS = {
   windows: 'https://github.com/simon-jordan-dev/breath-bar-site/releases/latest/download/Breath-Bar-Setup.exe', // always the newest installer (see the app's README)
   android: '', // the Google Play listing
-  pro: '',     // the Stripe checkout for Pro, once it's live
 };
+// Pro is sold through our key service (the breath-bar-keys project), which opens
+// Stripe Checkout for the chosen plan. Turn this on once Stripe is live.
+const PRO_ON_SALE = false;
+const KEYS_API = 'https://api.breathbar.app';
+for (const plan of ['monthly', 'yearly', 'lifetime']) LINKS[`pro-${plan}`] = PRO_ON_SALE ? `${KEYS_API}/buy?plan=${plan}` : '';
 
 const NOT_YET = {
   windows: 'The Windows download opens at launch.',

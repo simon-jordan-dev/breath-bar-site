@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breath Bar Pro: your license key</title>
+  <meta name="description" content="Your Breath Bar Pro license key, and how to get it again if you lose it.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="stylesheet" href="site.css">
+  <style>
+    .keybox { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 18px 20px; background: var(--surface); border: 2px solid var(--accent); border-radius: 14px; }
+    .keybox code { flex: 1 1 260px; min-width: 0; font: 600 clamp(17px, 4.4vw, 24px)/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace; letter-spacing: 0.04em; overflow-wrap: anywhere; }
+    .keybox button, #lost button { min-height: 44px; padding: 0 18px; font: inherit; font-weight: 600; color: var(--on-accent); background: var(--accent); border: none; border-radius: 10px; cursor: pointer; }
+    .steps { margin: 4px 0 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+    #lost form { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    #lost input { flex: 1 1 220px; min-width: 0; min-height: 44px; padding: 0 14px; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <main class="legal">
+    <p class="back"><a href="./">← Breath Bar</a></p>
+
+    <section id="bought" hidden>
+      <h1>Thanks for getting Pro</h1>
+      <p id="status">Getting your license key…</p>
+      <div id="key" class="keybox" hidden>
+        <code id="key-text"></code>
+        <button id="copy" type="button">Copy</button>
+      </div>
+      <div id="how" hidden>
+        <h2>Unlock Pro</h2>
+        <ol class="steps">
+          <li>Open Breath Bar and go to <b>Pro</b>.</li>
+          <li>Paste the key and press <b>Activate</b>.</li>
+        </ol>
+        <p>The same key works on up to 5 devices at once: your PCs and your Android phone. <span id="emailed"></span></p>
+        <p class="small">Manage or cancel a subscription any time at <a href="https://link.com">link.com</a>, with the email you bought with. Questions: <a href="mailto:support@breathbar.app">support@breathbar.app</a>.</p>
+      </div>
+    </section>
+
+    <section id="lost">
+      <h2 id="lost-title">Lost your key?</h2>
+      <p>Enter the email address you bought Pro with, and we'll send your key again.</p>
+      <form id="lost-form">
+        <input id="lost-email" type="email" required autocomplete="email" placeholder="you@example.com" aria-labelledby="lost-title">
+        <button type="submit">Send my key</button>
+      </form>
+      <p id="lost-done" class="small" hidden></p>
+    </section>
+  </main>
+
+  <script>
+    const API = 'https://api.breathbar.app';
+    const $ = (id) => document.getElementById(id);
+    const session = new URLSearchParams(location.search).get('session');
+
+    // Just after paying, Stripe may take a moment to finish, so ask a few times.
+    async function getKey(tries = 10) {
+      for (let i = 0; i < tries; i++) {
+        try {
+          const r = await fetch(`${API}/v1/session/${encodeURIComponent(session)}`);
+          if (r.ok) return await r.json();
+        } catch { /* try again */ }
+        await new Promise((res) => setTimeout(res, 1500));
+      }
+      return null;
+    }
+
+    if (session) {
+      $('bought').hidden = false;
+      $('lost-title').textContent = 'Need it again later?';
+      getKey().then((k) => {
+        if (!k) {
+          $('status').textContent = "Your payment went through, but the key isn't ready yet. It's on its way by email. If it hasn't arrived in a few minutes, use the form below or write to support@breathbar.app.";
+          return;
+        }
+        $('status').hidden = true;
+        $('key-text').textContent = k.key;
+        $('key').hidden = false;
+        $('how').hidden = false;
+        $('emailed').textContent = k.emailed ? `We've also emailed it to ${k.email}.` : 'Keep a copy of it somewhere safe.';
+      });
+    }
+
+    $('copy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText($('key-text').textContent);
+        $('copy').textContent = 'Copied';
+      } catch {
+        getSelection().selectAllChildren($('key-text')); // select it to copy by hand
+      }
+    });
+
+    $('lost-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const done = $('lost-done');
+      try {
+        await fetch(`${API}/v1/resend`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: $('lost-email').value }) });
+        done.textContent = "If that address bought Pro, its key is on the way. Check your spam folder too. Still nothing? Write to support@breathbar.app.";
+      } catch {
+        done.textContent = "Couldn't reach the server. Check your connection and try again.";
+      }
+      done.hidden = false;
+    });
+  </script>
+</body>
+</html>
