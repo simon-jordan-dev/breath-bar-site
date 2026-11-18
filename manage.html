@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Breath Bar Pro: manage your subscription</title>
+  <meta name="description" content="Cancel or manage your Breath Bar Pro subscription with your license key. No account needed.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0e17">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="home.css?v=20261118a">
+  <style>
+    /* The thank-you page: the home page's night look, with a calm breathing bar. */
+    .thanks { display: flex; flex-direction: column; gap: 40px; padding: clamp(8px, 3vh, 32px) 0 64px; max-width: 40em; }
+    .thanks h1 { font-size: clamp(38px, 6vw, 64px); }
+    #bought { display: flex; flex-direction: column; gap: 22px; }
+    #bought:not([hidden]) + .lost { padding-top: 32px; border-top: 1px solid var(--line); }
+    .thanks .lede { color: var(--muted); font-size: 17px; }
+    .keycard { display: flex; flex-direction: column; gap: 18px; padding: 24px; background: var(--surface); border: 2px solid var(--accent); border-radius: calc(var(--radius) + 4px); box-shadow: 0 0 60px -20px rgba(91, 140, 255, 0.5); }
+    .keyline { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+    .keyline code { flex: 1 1 auto; min-width: 0; white-space: nowrap; font: 600 clamp(16px, 4.4vw, 24px)/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace; letter-spacing: 0.04em; color: var(--ink); overflow-wrap: anywhere; }
+    .keycard ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; color: var(--muted); }
+    .keycard ol b { color: var(--ink); font-weight: 600; }
+    .lost h2 { font-size: 22px; margin-bottom: 6px; }
+    .lost p { color: var(--muted); font-size: 16px; }
+    .lost form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .lost input { flex: 1 1 220px; min-width: 0; min-height: 50px; padding: 0 18px; font: inherit; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 26px; }
+    .lost input:focus { outline: none; border-color: var(--accent); }
+    .lost button.btn { cursor: pointer; }
+    .foot { padding: 24px 0 40px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+    .foot a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="rail" aria-hidden="true"><div class="edge thin" id="edge"><i></i></div></div>
+  <div class="wrap">
+    <header><b>Breath Bar</b><a href="./">← Home</a></header>
+
+    <main class="thanks">
+      <section id="manage" style="display:flex;flex-direction:column;gap:18px">
+        <h1>Your subscription<br><span>cancel or change it.</span></h1>
+        <p class="lede">Enter your Breath Bar Pro license key. Stripe, which handles the payment, opens a page where you can cancel, update your card or download invoices. No account or password needed.</p>
+        <form id="manage-form" class="lost" style="margin:0">
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <input id="manage-key" required autocomplete="off" spellcheck="false" placeholder="BB-XXXX-XXXX-XXXX-XXXX" aria-label="License key" style="font-family:ui-monospace,Consolas,monospace;letter-spacing:0.04em">
+            <button class="btn" type="submit" id="manage-go">Manage subscription</button>
+          </div>
+        </form>
+        <p class="small" id="manage-status" hidden></p>
+        <p class="small">Your key is in the email you got when you bought Pro, and in the app under Pro. <a href="thanks.html#lost">Lost it?</a> Questions: <a href="mailto:support@breathbar.app">support@breathbar.app</a>.</p>
+      </section>
+    </main>
+
+    <footer class="foot">© 2026 Breath Bar · <a href="legal.html#privacy">Privacy</a> · <a href="legal.html#refunds">Refunds</a> · <a href="legal.html#terms">Terms</a> · <a href="mailto:support@breathbar.app">Contact</a></footer>
+  </div>
+
+  <script>
+    const API = 'https://api.breathbar.app';
+    const $ = (id) => document.getElementById(id);
+    const status = (text) => { $('manage-status').textContent = text; $('manage-status').hidden = !text; };
+
+    async function openPortal(key) {
+      $('manage-go').disabled = true;
+      status('Opening Stripe…');
+      try {
+        const r = await fetch(`${API}/v1/manage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ license_key: key.trim() }) });
+        const d = await r.json();
+        if (d.url) return location.assign(d.url);
+        status(d.error || "That didn't work. Check the key and try again.");
+      } catch {
+        status("Couldn't reach the server. Check your connection and try again.");
+      }
+      $('manage-go').disabled = false;
+    }
+
+    // From the key email or the app: ?key=… fills it in and goes straight to Stripe.
+    const fromLink = new URLSearchParams(location.search).get('key');
+    if (fromLink) {
+      $('manage-key').value = fromLink;
+      history.replaceState(null, '', location.pathname); // keep the key out of the address bar
+      openPortal(fromLink);
+    }
+    $('manage-form').addEventListener('submit', (e) => { e.preventDefault(); openPortal($('manage-key').value); });
+  </script>
+  <script>
+    // A plain bar breathing at a calm pace (in 5.5 s, out 5.5 s), like the app's Resonance.
+    (() => {
+      const edge = document.getElementById('edge');
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const ease = (p) => 0.5 - Math.cos(Math.PI * p) / 2;
+      const frame = (t) => {
+        const s = (t / 1000) % 11, level = s < 5.5 ? ease(s / 5.5) : 1 - ease((s - 5.5) / 5.5);
+        edge.style.setProperty('--level', level.toFixed(4));
+        requestAnimationFrame(frame);
+      };
+      if (still) edge.style.setProperty('--level', '0.6'); else requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
