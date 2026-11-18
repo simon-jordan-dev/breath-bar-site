@@ -42,9 +42,11 @@ body {
 button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- The bar ---------- */
-.bar { position: fixed; top: 0; right: 0; bottom: 0; width: var(--bar-width); background: color-mix(in srgb, var(--accent) 16%, transparent); z-index: 5; pointer-events: none; }
+/* 100lvh: the full height with the browser's toolbars hidden, so on iPhone the bar still
+   reaches the bottom once Safari's toolbar slides away at the end of the page. */
+.bar { position: fixed; top: 0; right: 0; height: 100vh; height: 100lvh; width: var(--bar-width); background: color-mix(in srgb, var(--accent) 16%, transparent); z-index: 5; pointer-events: none; }
 .bar-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background: var(--accent); transform-origin: bottom; transform: scaleY(0); }
-.scene { position: fixed; top: 0; right: 0; width: 72px; height: 100%; z-index: 5; pointer-events: none; }
+.scene { position: fixed; top: 0; right: 0; width: 72px; height: 100vh; height: 100lvh; z-index: 5; pointer-events: none; }
 
 /* ---------- Layout ---------- */
 main {
