@@ -79,6 +79,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .buys .btn { grid-column: span 2; width: 100%; min-height: 48px; padding: 0 12px; white-space: nowrap; }
 .buys .btn + .btn.ghost { grid-column: span 1; }
 .buys .btn.ghost { box-shadow: none; }
+.buys .btn.dl { min-height: 40px; font-size: 14px; font-weight: 500; color: var(--muted); box-shadow: none; }
+.buys .btn.dl:hover { color: var(--ink); }
 @media (max-width: 420px) { .buys .btn + .btn.ghost { grid-column: span 2; } }
 .get-row { display: flex; flex-wrap: wrap; gap: 10px; }
 /* The two plans line up row by row: name, price, small print, list, note, buttons. */
