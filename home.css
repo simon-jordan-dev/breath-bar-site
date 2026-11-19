@@ -85,6 +85,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bb-plans { grid-template-rows: repeat(6, auto); }
 .bb-plan { display: grid; grid-row: span 6; grid-template-rows: subgrid; align-content: start; }
 .bb-plan .buys { align-self: start; }
+/* Free has one button beside Pro's three: it sits at the bottom of the card, level with Monthly and Lifetime. */
+.bb-plan:not(.pro) .buys { align-self: end; }
 
 /* ---------- The page ---------- */
   :root { --bg: #0b0e17; --ink: #eef1f8; --muted: #9aa3b8; --line: #232a3d; --surface: #121726; --accent: #5b8cff; --accent-ink: #9dbaff; --on-accent: #06102a; --radius: 12px; color-scheme: dark; }
