@@ -2,7 +2,8 @@
 // Fill these in before launch (see README.md). Until then those buttons say they
 // open at launch, rather than going nowhere.
 const LINKS = {
-  windows: 'https://github.com/simon-jordan-dev/breath-bar-site/releases/latest/download/Breath-Bar-Setup.exe', // always the newest installer (see the app's README)
+  windows: 'https://apps.microsoft.com/detail/9NF9VWC25DS0', // the Microsoft Store listing: no SmartScreen warning, the Store keeps it updated
+  'windows-exe': 'https://github.com/simon-jordan-dev/breath-bar-site/releases/latest/download/Breath-Bar-Setup.exe', // the direct installer, always the newest (see the app's README)
   android: '', // the Google Play listing
 };
 // Pro is sold through our key service (the breath-bar-keys project), which opens
@@ -429,7 +430,8 @@ for (const link of document.querySelectorAll('[data-get]')) {
   link.addEventListener('click', () => {
     const where = link.closest('[data-section]')?.dataset.section ?? 'page';
     const get = link.dataset.get;
-    if (get === 'windows') Stats.send('download_clicked', { where });
+    if (get === 'windows') Stats.send('download_clicked', { where, from: 'store' });
+    else if (get === 'windows-exe') Stats.send('download_clicked', { where, from: 'installer' });
     else if (get === 'android') Stats.send('coming_soon_clicked', { where });
     else Stats.send('buy_clicked', { where, plan: get });
   });
