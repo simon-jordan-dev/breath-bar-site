@@ -359,8 +359,8 @@ addEventListener('scroll', () => barLabel.classList.toggle('gone', scrollY > 120
 // ---------- Anonymous visit statistics ----------
 // A few counts sent to PostHog (EU), the same service the app uses: the visit,
 // which parts of the page were seen, and which buttons were clicked. No cookies
-// and nothing stored in the browser: the ID is random and lasts only for this
-// page view, so visits can't be linked to each other or to a person.
+// and nothing stored in the browser. A checkout can be attributed back to
+// this page view using its random ID and campaign tags.
 // Only breathbar.app sends; a copy opened anywhere else just logs to the console.
 const Stats = (() => {
   const LIVE = location.hostname === 'breathbar.app';
@@ -464,18 +464,31 @@ const Stats = (() => {
       onLCP(report);
     }).catch(() => {});
   }
-  return { send };
+  function checkoutUrl(href) {
+    const url = new URL(href);
+    url.searchParams.set('visit_id', id);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']) {
+      const value = query.get(key);
+      if (value) url.searchParams.set(key, value.slice(0, 100));
+    }
+    return url.href;
+  }
+  return { send, checkoutUrl };
 })();
 
 // Clicks on the download, coming-soon and buy buttons, and on the bar picker.
 for (const link of document.querySelectorAll('[data-get]')) {
+  const plan = link.dataset.get;
+  if (/^pro-(monthly|yearly|lifetime)$/.test(plan) && LINKS[plan]) {
+    link.href = Stats.checkoutUrl(LINKS[plan]);
+  }
   link.addEventListener('click', () => {
     const where = link.closest('[data-section]')?.dataset.section ?? 'page';
     const get = link.dataset.get;
     if (get === 'windows') Stats.send('download_clicked', { where, from: 'store' });
     else if (get === 'windows-exe') Stats.send('download_clicked', { where, from: 'installer' });
     else if (get === 'android') Stats.send('coming_soon_clicked', { where });
-    else Stats.send('buy_clicked', { where, plan: get });
+    else Stats.send('buy_clicked', { where, plan: get.replace(/^pro-/, '') });
   });
 }
 for (const b of document.querySelectorAll('.looks button')) {
