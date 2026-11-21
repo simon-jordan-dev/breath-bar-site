@@ -367,12 +367,24 @@ const Stats = (() => {
   const HOST = 'https://eu.i.posthog.com';
   const TOKEN = 'phc_wonXbJTvvXBJkvp2oKBV9q5SaPYxGVdZEYV2rhEF5m9g'; // the project's public key
   const id = 'visit-' + (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
+  // PostHog requires UUIDv7. Keep the session in memory for this page view.
+  const sessionBytes = crypto.getRandomValues(new Uint8Array(16));
+  const timestamp = Date.now().toString(16).padStart(12, '0');
+  for (let i = 0; i < 6; i++) {
+    sessionBytes[i] = parseInt(timestamp.slice(i * 2, i * 2 + 2), 16);
+  }
+  sessionBytes[6] = (sessionBytes[6] & 0x0f) | 0x70;
+  sessionBytes[8] = (sessionBytes[8] & 0x3f) | 0x80;
+  const sessionHex = Array.from(sessionBytes, byte => byte.toString(16).padStart(2, '0')).join('');
+  const sessionId = [sessionHex.slice(0, 8), sessionHex.slice(8, 12), sessionHex.slice(12, 16),
+    sessionHex.slice(16, 20), sessionHex.slice(20)].join('-');
   const started = performance.now();
   const query = new URLSearchParams(location.search);
   let referrer = '';
   try { referrer = document.referrer ? new URL(document.referrer).hostname : ''; } catch {}
   const common = {
     $lib: 'breath-bar-site',
+    $session_id: sessionId,
     $process_person_profile: false,
     $current_url: location.origin + location.pathname,
     $pathname: location.pathname,
@@ -407,16 +419,31 @@ const Stats = (() => {
   for (const el of document.querySelectorAll('[data-section]')) watch.observe(el);
 
   // How far down the page they got, and for how long, when they leave.
-  let deepest = 0;
-  addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    if (max > 0) deepest = Math.max(deepest, Math.round(scrollY / max * 100));
-  }, { passive: true });
+  let deepestScroll = 0;
+  let deepestContent = 0;
+  function measureDepth() {
+    const height = document.documentElement.scrollHeight;
+    const maxScroll = height - innerHeight;
+    const offset = Math.max(0, scrollY);
+    if (maxScroll > 0) deepestScroll = Math.max(deepestScroll, Math.min(1, offset / maxScroll));
+    if (height > 0) deepestContent = Math.max(deepestContent, Math.min(1, (offset + innerHeight) / height));
+  }
+  measureDepth();
+  addEventListener('scroll', measureDepth, { passive: true });
   let left = false;
   function leave() {
     if (left) return;
     left = true;
-    send('$pageleave', { scrolled_percent: deepest, seconds_on_page: Math.round((performance.now() - started) / 1000) });
+    measureDepth();
+    const duration = (performance.now() - started) / 1000;
+    send('$pageleave', {
+      scrolled_percent: Math.round(deepestScroll * 100),
+      seconds_on_page: Math.round(duration),
+      $prev_pageview_pathname: location.pathname,
+      $prev_pageview_duration: duration,
+      $prev_pageview_max_scroll_percentage: deepestScroll,
+      $prev_pageview_max_content_percentage: deepestContent,
+    });
   }
   addEventListener('pagehide', leave);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') leave(); });
