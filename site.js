@@ -387,6 +387,7 @@ const Stats = (() => {
     $session_id: sessionId,
     $process_person_profile: false,
     $current_url: location.origin + location.pathname,
+    $host: location.hostname,
     $pathname: location.pathname,
     $referring_domain: referrer || '$direct',
     $screen_width: screen.width,
