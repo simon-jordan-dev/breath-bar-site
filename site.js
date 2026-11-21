@@ -450,6 +450,20 @@ const Stats = (() => {
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') leave(); });
 
   send('$pageview');
+  if (LIVE) {
+    import('./vendor/web-vitals-6.2.3.js').then(({ onCLS, onFCP, onINP, onLCP }) => {
+      const sent = new Set();
+      const report = ({ name, value }) => {
+        if (sent.has(name) || !Number.isFinite(value)) return;
+        sent.add(name);
+        send('$web_vitals', { ['$web_vitals_' + name + '_value']: value });
+      };
+      onCLS(report);
+      onFCP(report);
+      onINP(report);
+      onLCP(report);
+    }).catch(() => {});
+  }
   return { send };
 })();
 
