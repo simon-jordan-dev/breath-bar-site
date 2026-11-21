@@ -364,7 +364,7 @@ addEventListener('scroll', () => barLabel.classList.toggle('gone', scrollY > 120
 // Only breathbar.app sends; a copy opened anywhere else just logs to the console.
 const Stats = (() => {
   const LIVE = location.hostname === 'breathbar.app';
-  const HOST = 'https://eu.i.posthog.com';
+  const HOST = 'https://pulse.breathbar.app';
   const TOKEN = 'phc_wonXbJTvvXBJkvp2oKBV9q5SaPYxGVdZEYV2rhEF5m9g'; // the project's public key
   const id = 'visit-' + (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
   // PostHog requires UUIDv7. Keep the session in memory for this page view.
