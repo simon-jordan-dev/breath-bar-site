@@ -155,8 +155,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
   /* The smallest phones (iPhone SE and mini, 375 px): shrink the second line just enough
      that "in the corner of your eye." stays on one line instead of leaving "eye." alone. */
   @media (max-width: 380px) { h1 span { display: inline-block; font-size: min(1em, calc((100vw - 68px) / 9.8)); } }
-  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-  .row p { color: var(--muted); font-size: 15px; max-width: 24em; }
+  /* The download buttons, then the one-line pitch under them (three buttons leave no
+     room for it alongside). */
+  .row { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+  .row p { color: var(--muted); font-size: 15px; max-width: 38em; text-wrap: pretty; }
   .btn { border-radius: 26px; padding: 0 26px; box-shadow: 0 0 34px rgba(91, 140, 255, 0.4); }
 
   /* The desk (03), at night. */
