@@ -4,6 +4,7 @@
 const LINKS = {
   windows: 'https://apps.microsoft.com/detail/9NF9VWC25DS0', // the Microsoft Store listing: no SmartScreen warning, the Store keeps it updated
   'windows-exe': 'https://github.com/simon-jordan-dev/breath-bar-site/releases/latest/download/Breath-Bar-Setup.exe', // the direct installer, always the newest (see the app's README)
+  mac: 'https://github.com/simon-jordan-dev/breath-bar-site/releases/latest/download/Breath-Bar.dmg', // the signed Mac app, always the newest (same name each release)
   android: '', // the Google Play listing
 };
 // Pro is sold through our key service (the breath-bar-keys project), which opens
@@ -14,7 +15,7 @@ for (const plan of ['monthly', 'yearly', 'lifetime']) LINKS[`pro-${plan}`] = PRO
 
 const NOT_YET = {
   windows: 'The Windows download opens at launch.',
-  android: 'Mac, iPhone and Android versions are coming soon.',
+  android: 'iPhone and Android versions are coming soon.',
   pro: 'Pro goes on sale very soon. The free app has everything you need to start.',
 };
 
@@ -211,12 +212,21 @@ for (const link of document.querySelectorAll('[data-get]')) {
   else link.addEventListener('click', (e) => { e.preventDefault(); toast(NOT_YET[link.dataset.get.split('-')[0]]); });
 }
 
-// On a phone, where the Windows download is no use, the coming-soon button comes first.
-if (/Android|iPhone/i.test(navigator.userAgent)) {
-  const row = document.querySelector('.get-row'), [win, soon] = row.children;
-  win.className = 'btn ghost';
-  soon.className = 'btn';
-  row.prepend(soon);
+// The button for the visitor's own system comes first and is the solid one: on a
+// Mac, the Mac download (and the closing button offers it too); on a phone, where
+// neither download is any use, the coming-soon button. (iPads report as Macs, but
+// have touch.)
+const IS_PHONE = /Android|iPhone/i.test(navigator.userAgent);
+const IS_MAC = !IS_PHONE && /Macintosh|Mac OS X/i.test(navigator.userAgent) && navigator.maxTouchPoints < 2;
+const lead = document.querySelector(`.get-row [data-get="${IS_PHONE ? 'android' : IS_MAC ? 'mac' : 'windows'}"]`);
+if (lead) {
+  for (const b of lead.parentElement.children) b.className = 'btn ghost';
+  lead.className = 'btn';
+  lead.parentElement.prepend(lead);
+}
+if (IS_MAC) {
+  const last = document.querySelector('.last [data-get="windows"]');
+  if (last) { last.dataset.get = 'mac'; last.textContent = 'Download for Mac'; last.href = LINKS.mac; }
 }
 
 // ---------- This page ----------
@@ -487,6 +497,7 @@ for (const link of document.querySelectorAll('[data-get]')) {
     const get = link.dataset.get;
     if (get === 'windows') Stats.send('download_clicked', { where, from: 'store' });
     else if (get === 'windows-exe') Stats.send('download_clicked', { where, from: 'installer' });
+    else if (get === 'mac') Stats.send('download_clicked', { where, from: 'mac' });
     else if (get === 'android') Stats.send('coming_soon_clicked', { where });
     else Stats.send('buy_clicked', { where, plan: get.replace(/^pro-/, '') });
   });
