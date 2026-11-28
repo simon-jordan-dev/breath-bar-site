@@ -244,7 +244,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .desk.mac .win header .x { order: 0; background: #ff5f57; }
   .desk.mac .win header .min { order: 1; background: #febc2e; }
   .desk.mac .win header .max { order: 2; background: #28c840; }
-  .desk.mac .bar { top: 3.6%; bottom: 10.4%; }
+  .desk.mac .bar { top: 3.6%; bottom: 0; }
   .desk.mac .note { top: 11%; }
   .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 18px auto 0; padding: 3px; width: fit-content; max-width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
   .tabs button { min-height: 40px; padding: 4px 16px; border: none; background: none; border-radius: 9px; color: var(--muted); }
