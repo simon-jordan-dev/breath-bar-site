@@ -216,7 +216,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   /* The same desk as a Mac, for visitors on a Mac: a menu bar along the top (with
      Breath Bar's icon in it, as the app has no Dock icon), a Dock in place of the
      taskbar, and traffic-light buttons on the left of each title bar. The bar runs
-     between the menu bar and the Dock, like the app's work area on a Mac. */
+     from under the menu bar to the bottom of the screen, past the Dock. */
   .menubar, .dock { display: none; }
   .desk.mac .taskbar { display: none; }
   .desk.mac .menubar { display: flex; position: absolute; left: 0; right: 0; top: 0; height: 3.6%; padding: 0 1.6%; align-items: center; gap: 1.6%; background: rgba(14, 18, 30, 0.55); backdrop-filter: blur(10px); z-index: 1; }
