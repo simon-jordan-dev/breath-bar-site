@@ -213,6 +213,39 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .note { position: absolute; right: calc(2% + 14px); top: 8%; padding: 6px 10px; font-size: 12.5px; font-weight: 600; color: var(--on-accent); background: var(--accent); border-radius: 8px; }
   .desk[data-bar="scene"] .note { right: calc(var(--scene-bar, 24px) + 14px); }
   .note::after { content: ''; position: absolute; right: -5px; top: 50%; width: 10px; height: 10px; background: inherit; transform: translateY(-50%) rotate(45deg); }
+  /* The same desk as a Mac, for visitors on a Mac: a menu bar along the top (with
+     Breath Bar's icon in it, as the app has no Dock icon), a Dock in place of the
+     taskbar, and traffic-light buttons on the left of each title bar. The bar runs
+     between the menu bar and the Dock, like the app's work area on a Mac. */
+  .menubar, .dock { display: none; }
+  .desk.mac .taskbar { display: none; }
+  .desk.mac .menubar { display: flex; position: absolute; left: 0; right: 0; top: 0; height: 3.6%; padding: 0 1.6%; align-items: center; gap: 1.6%; background: rgba(14, 18, 30, 0.55); backdrop-filter: blur(10px); z-index: 1; }
+  .menubar i { height: 32%; border-radius: 2px; background: rgba(255, 255, 255, 0.55); }
+  .menubar i.logo { width: 1.1%; height: 50%; border-radius: 40%; background: rgba(255, 255, 255, 0.85); }
+  .menubar i.app-name { width: 4.5%; background: rgba(255, 255, 255, 0.85); }
+  .menubar i.item { width: 2.6%; }
+  .menubar .right { margin-left: auto; display: flex; align-items: center; gap: 14%; height: 100%; width: 16%; justify-content: flex-end; }
+  .menubar .right img { height: 62%; width: auto; max-width: none; border-radius: 22%; }
+  .menubar .right i { width: 9%; }
+  .menubar .clock { font-size: clamp(5px, 0.8vw, 10px); color: rgba(255, 255, 255, 0.8); white-space: nowrap; }
+  .desk.mac .dock { display: flex; position: absolute; left: 50%; bottom: 1.4%; transform: translateX(-50%); height: 7.5%; padding: 0.6% 0.9%; gap: 0.9%; align-items: center; border-radius: 14px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(10px); }
+  .dock i { height: 100%; aspect-ratio: 1; border-radius: 24%; }
+  .dock .finder { background: linear-gradient(90deg, #5ac8fa 50%, #e8eef8 50%); }
+  .dock .web { border-radius: 50%; background: radial-gradient(circle at 35% 35%, #7dd3fc, #2563eb 70%); }
+  .dock .mail { background: linear-gradient(#5ac8fa, #1e7cf2); }
+  .dock .notes { background: linear-gradient(#ffe27a 30%, #fff8e1 30%); }
+  .dock .music { background: linear-gradient(135deg, #ff6a88, #fa233b); }
+  .dock .call-app { background: linear-gradient(#4cd964, #1fae4b); }
+  .dock .settings { border-radius: 50%; background: radial-gradient(circle, #9aa1ad 28%, #6b7280 30%, #c7ccd4 62%, #8c939e 64%); }
+  .desk.mac .win { border-radius: 10px; }
+  .desk.mac .win header { justify-content: flex-start; align-items: center; gap: clamp(3px, 1.2%, 6px); padding-left: clamp(6px, 2.5%, 12px); }
+  .desk.mac .win header i { width: clamp(5px, 2.2%, 11px); aspect-ratio: 1; border-radius: 50%; }
+  .desk.mac .win header i::before, .desk.mac .win header i::after { display: none; }
+  .desk.mac .win header .x { order: 0; background: #ff5f57; }
+  .desk.mac .win header .min { order: 1; background: #febc2e; }
+  .desk.mac .win header .max { order: 2; background: #28c840; }
+  .desk.mac .bar { top: 3.6%; bottom: 10.4%; }
+  .desk.mac .note { top: 11%; }
   .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 18px auto 0; padding: 3px; width: fit-content; max-width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
   .tabs button { min-height: 40px; padding: 4px 16px; border: none; background: none; border-radius: 9px; color: var(--muted); }
   .tabs button.on { background: var(--accent); color: var(--on-accent); font-weight: 600; }

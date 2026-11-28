@@ -217,7 +217,8 @@ for (const link of document.querySelectorAll('[data-get]')) {
 // neither download is any use, the coming-soon button. (iPads report as Macs, but
 // have touch.)
 const IS_PHONE = /Android|iPhone/i.test(navigator.userAgent);
-const IS_MAC = !IS_PHONE && /Macintosh|Mac OS X/i.test(navigator.userAgent) && navigator.maxTouchPoints < 2;
+// ?mac shows the page as a Mac visitor sees it, from any computer.
+const IS_MAC = !IS_PHONE && ((/Macintosh|Mac OS X/i.test(navigator.userAgent) && navigator.maxTouchPoints < 2) || new URLSearchParams(location.search).has('mac'));
 const lead = document.querySelector(`.get-row [data-get="${IS_PHONE ? 'android' : IS_MAC ? 'mac' : 'windows'}"]`);
 if (lead) {
   for (const b of lead.parentElement.children) b.className = 'btn ghost';
@@ -260,6 +261,7 @@ Breath.look('wave', { edge: 'right', color: '#5b8cff' });
 // Copy the page-edge scene into the mock's bar every frame, at the same
 // proportions, so the desk shows exactly what the page edge shows.
 const desk = document.querySelector('.desk'), edge = document.querySelector('.edge.thin');
+desk.classList.toggle('mac', IS_MAC); // a Mac menu bar, Dock and title bars for Mac visitors
 function setBar(mode) {
   desk.dataset.bar = mode;
   edge.classList.toggle('rainbow', mode === 'rainbow');
